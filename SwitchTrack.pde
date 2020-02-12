@@ -1,31 +1,57 @@
-class SwitchTrack {
-  private int _x;
-  private int _y;
+public class SwitchTrack extends Node { //<>// //<>//
+  private int _x, _y;
+  private Boolean _flip = false, _reverse = false;
 
-  // constructor
-  SwitchTrack(int x, int y) {
-    _x = x; 
+  private NodeCircle circle = new NodeCircle();
+  private Node _terminalA, _terminalB, _terminalC;
+
+  // constructors  
+  public SwitchTrack(Boolean flip, Boolean reverse) {
+    setXY(50, height / 2);
+    _flip = flip;
+    _reverse = reverse;
+  }
+
+  // functions
+  public void setXY(int x, int y) {
+    _x = x;
     _y = y;
   }
 
-  void display() {
-    int circleDiameter=20;
+  public void setTeminalA(Node node) {
+    _terminalA = node;
+  }
 
-    line(_x, _y, _x + 50, _y);
-    line(_x, _y, _x + 50, _y - 25);
+  public void setTeminalB(Node node) {
+    _terminalB = node;
+  }
 
-    fill(0, 255, 0);
-    circle(_x, _y, circleDiameter);
-    fill(255, 150, 0);
-    circle(_x + 50, _y, circleDiameter);
-    fill(255, 0, 0);
-    circle(_x + 50, _y - 25, circleDiameter);
+  public void setTeminalC(Node node) {
+    _terminalC = node;
+  }
 
-    textSize(15);
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text("A", _x, _y);
-    text("B", _x + 50, _y);
-    text("C", _x + 50, _y - 25);
+  public void display() {
+    int x1 = _x, x2 = _x + 50, y1 = _y, y2 = _y - 25;
+    if (_flip) {
+      y2 = _y + 25;
+    }
+
+    if (_reverse) {
+      int t = x1;
+      x1 = x2;
+      x2 = t;
+    }
+
+    line(x1, y1, x2, y1);
+    line(x1, y1, x2, y2);
+
+    circle.display(x1, y1, #3EF761, 'A');
+    circle.display(x2, y1, #F7923E, 'B');
+    circle.display(x2, y2, #FC2424, 'C');
+
+    if (_terminalC != null) {
+      _terminalC.setXY(x2 + 20, y2);
+      _terminalC.display();
+    }
   }
 }
