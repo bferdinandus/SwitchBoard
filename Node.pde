@@ -1,5 +1,8 @@
 public class Node {
-  public Node () {
+  protected int _id;
+  
+  public Node (int id) {
+    _id = id;  
   }
 
   public void display() {

@@ -1,12 +1,14 @@
-public class SwitchTrack extends Node { //<>// //<>//
+public class SwitchTrack extends Node { //<>//
   private int _x, _y;
   private Boolean _flip = false, _reverse = false;
 
   private NodeCircle circle = new NodeCircle();
-  private Node _terminalA, _terminalB, _terminalC;
 
-  // constructors  
-  public SwitchTrack(Boolean flip, Boolean reverse) {
+  // constructors
+  public SwitchTrack(Boolean flip, Boolean reverse, int id) {
+    // first call contructor of the parent
+    super(id);
+
     setXY(50, height / 2);
     _flip = flip;
     _reverse = reverse;
@@ -14,26 +16,21 @@ public class SwitchTrack extends Node { //<>// //<>//
 
   // functions
   public void setXY(int x, int y) {
+    // set the start position for this switchTrack
     _x = x;
     _y = y;
   }
 
-  public void setTeminalA(Node node) {
-    _terminalA = node;
-  }
-
-  public void setTeminalB(Node node) {
-    _terminalB = node;
-  }
-
-  public void setTeminalC(Node node) {
-    _terminalC = node;
-  }
-
   public void display() {
     int x1 = _x, x2 = _x + 50, y1 = _y, y2 = _y - 25;
-    if (_flip) {
+    if (_flip && !_reverse) {
       y2 = _y + 25;
+    }
+
+    if (_flip && _reverse) {
+      int t = y1;
+      y1 = y2;
+      y2 = t;
     }
 
     if (_reverse) {
@@ -48,10 +45,5 @@ public class SwitchTrack extends Node { //<>// //<>//
     circle.display(x1, y1, #3EF761, 'A');
     circle.display(x2, y1, #F7923E, 'B');
     circle.display(x2, y2, #FC2424, 'C');
-
-    if (_terminalC != null) {
-      _terminalC.setXY(x2 + 20, y2);
-      _terminalC.display();
-    }
   }
 }
