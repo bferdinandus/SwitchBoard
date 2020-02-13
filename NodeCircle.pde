@@ -1,11 +1,11 @@
 public class NodeCircle {
-  private int _circleDiameter = 20;
+  private Integer _circleDiameter = 20;
 
   //constructor
   public NodeCircle() {
   }
 
-  public void display(int x, int y, int colour, char letter) {
+  public void display(Integer x, Integer y, Integer colour, Character letter) {
     fill(colour);
     circle(x, y, _circleDiameter);
     fill(#000000);

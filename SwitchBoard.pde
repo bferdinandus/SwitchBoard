@@ -1,9 +1,9 @@
+import java.util.TreeMap;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-ArrayList<Node> drawStack = new ArrayList<Node>();
 Board board = new Board();
 
 void setup() {
@@ -11,24 +11,20 @@ void setup() {
   noSmooth();
   noLoop();
 
-  //Map map = new HashMap<String, String>();
-  //map.put("A","1");
+  // addSwitchTrack(int id, Boolean flip, Boolean reverse, int termA, int termB, int termC)
+  board.AddSwitchTrack(1, false, false, 0, 3, 2);
+  board.AddSwitchTrack(2, false, false, 1, 0, 4);
+  board.AddSwitchTrack(3, true, false, 1, 0, 0);
+  board.AddSwitchTrack(4, false, false, 2, 0, 0);
 
-  board.addSwitchTrack(1, 0, 3, 2);
-  board.addSwitchTrack(2, 0, 0, 1);
-  board.addSwitchTrack(3, 1, 0, 0);
+  println(board.GetElements());
 
-
-  println(board._elements);
-
-  for (Map<String, Node> value : board._elements.values()) {
-    value.get("self");
-  }
-
+  board.UpdatePositions();
 }
 
 void draw() {
-  for (Map<String, Node> value : board._elements.values()) {
+  Map<Integer, Map<String, Node>> elements = board.GetElements();
+  for (Map<String, Node> value : elements.values()) {
     value.get("self").display();
   }
 }
