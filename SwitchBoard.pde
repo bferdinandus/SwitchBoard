@@ -12,10 +12,10 @@ void setup() {
   noLoop();
 
   // addSwitchTrack(int id, Boolean flip, Boolean reverse, int termA, int termB, int termC)
-  board.AddSwitchTrack(1, false, false, 0, 3, 2);
-  board.AddSwitchTrack(2, false, false, 1, 0, 4);
-  board.AddSwitchTrack(3, true, false, 1, 0, 0);
-  board.AddSwitchTrack(4, false, false, 2, 0, 0);
+  board.AddSwitchTrack(1, false, false, 0, 0, 2);
+  board.AddSwitchTrack(2, true, true, 0, 0, 1);
+  //board.AddSwitchTrack(3, true, true, 0, 2, 0);
+  //board.AddSwitchTrack(4, false, false, 2, 0, 0);
 
   println(board.GetElements());
 

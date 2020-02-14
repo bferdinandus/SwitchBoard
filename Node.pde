@@ -13,26 +13,9 @@ public class Node {
     // override this function in the sub classes
   }
 
-  public void setFlip(Boolean flip) 
-  {
-    // override in SwitchTrack
-  }
-
-  public void setReverse(Boolean reverse)
-  {
-    // override in SwitchTrack
-  }
-  
   public Map<String, Integer> getXY()
   {
-      // override in SwitchTrack
-      return new HashMap<String, Integer>();
-  }
-  
-  public Boolean IsPositioned()
-  {
     // override in SwitchTrack
-    return false;
+    return new HashMap<String, Integer>();
   }
-
 }
