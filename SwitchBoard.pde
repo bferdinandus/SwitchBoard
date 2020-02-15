@@ -8,23 +8,35 @@ Board board = new Board();
 
 void setup() {
   size(600, 400);
-  noSmooth();
   noLoop();
 
-  // addSwitchTrack(int id, Boolean flip, Boolean reverse, int termA, int termB, int termC)
-  board.AddSwitchTrack(1, false, false, 0, 0, 2);
-  board.AddSwitchTrack(2, true, true, 0, 0, 1);
-  //board.AddSwitchTrack(3, true, true, 0, 2, 0);
-  //board.AddSwitchTrack(4, false, false, 2, 0, 0);
+  // arguments: element type:enum, element Id:Integer, options: Map (optioneel)
+  Map<String, Object> options = new HashMap<String, Object>();
+  options.put("flip", false);
+  options.put("reverse", false);
+  //options.put("iets_anders", "wat dan");
+  board.AddElement(Constants.element.SWITCHTRACK, 1 /*, options*/);
+  board.AddElement(Constants.element.SWITCHTRACK, 2);
+  
+  options = new HashMap<String, Object>();
+  options.put("flip", true);
+  board.AddElement(Constants.element.SWITCHTRACK, 3, options);
+  
+  // arguments: id1, terminal bij id1, id2, terminal bij id2
+  board.ConnectTerminals(1, Constants.terminal.B, 2, Constants.terminal.C);
+  board.ConnectTerminals(2, Constants.terminal.B, 3, Constants.terminal.B);
 
-  println(board.GetElements());
-
-  board.UpdatePositions();
+  //println(board.GetNodes());
 }
 
 void draw() {
-  Map<Integer, Map<String, Node>> elements = board.GetElements();
-  for (Map<String, Node> value : elements.values()) {
-    value.get("self").display();
+  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
+  for (Map<String, Element> node : nodes.values()) {
+    Element element = node.get("self"); 
+    if (element.IsPositioned()) {
+      element.display();
+    } else {
+      println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
+    }
   }
 }
