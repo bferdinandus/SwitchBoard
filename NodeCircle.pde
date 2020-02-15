@@ -9,6 +9,6 @@ public class NodeCircle {
     fill(#000000);
     textSize(15);
     textAlign(CENTER, CENTER);
-    text(letter, x, y);
+    text(letter, x, y-2);
   }
 }

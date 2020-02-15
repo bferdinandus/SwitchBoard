@@ -13,7 +13,7 @@ public class SwitchTrack extends Element { //<>//
   {
     return _flip;
   }
-  
+
   public void Flip(Boolean flip) 
   {
     _flip = flip;
@@ -31,8 +31,8 @@ public class SwitchTrack extends Element { //<>//
 
   public void display() {
     Integer x1 = _x, 
-            x2 = _x + Constants.switchTrackWidth, 
-            y1 = _y, y2 = _y - Constants.switchTrackHeight;
+      x2 = _x + Constants.switchTrackWidth, 
+      y1 = _y, y2 = _y - Constants.switchTrackHeight;
     if (_flip) {
       y2 = _y + Constants.switchTrackHeight;
     }
@@ -49,5 +49,22 @@ public class SwitchTrack extends Element { //<>//
     circle.display(x1, y1, #3EF761, 'A');
     circle.display(x2, y1, #F7923E, 'B');
     circle.display(x2, y2, #FC2424, 'C');
+
+    fill(#000000);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    int letterX;
+    if (!_reverse) {
+      letterX = x1 + abs((x1 - x2) / 2);
+    } else {
+      letterX = x1 - abs((x1 - x2) / 2);
+    }
+    int letterY;
+    if (!_flip) {
+      letterY = y1 - abs((y1 - y2) / 2);
+    } else {
+      letterY = y1 + abs((y1 - y2) / 2);
+    }
+    text(_id, letterX, letterY);
   }
 }
