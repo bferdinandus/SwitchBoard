@@ -8,10 +8,10 @@ Board board = new Board();
 
 void setup() {
   size(600, 400);
-  noLoop();
 
   //Configuration.loadSingleSwitch(board);
   Configuration.loadSchaduwStation(board);
+
   //println(board.GetNodes());
 }
 

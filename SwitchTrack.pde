@@ -1,11 +1,24 @@
 public class SwitchTrack extends Element { //<>//
+  PApplet _parent;
+  private Constants.terminal _position;
+  private Boolean _mouseOverSwitchTrack = false;
+
   // constructors
-  public SwitchTrack(Integer id) {
+    public SwitchTrack(Integer id) {    
     // first call contructor of the parent
     super(id);
+    _position = Constants.terminal.C;
   }
 
-  public void Display() {
+  public void Toggle() {
+    if (_position == Constants.terminal.B) {
+      _position = Constants.terminal.C;
+    } else {
+      _position = Constants.terminal.B;
+    }
+  }
+
+  private Map<String, Integer> GetCorners() {
     Integer x1 = _x, x2 = _x + Constants.switchTrackWidth, 
       y1 = _y, y2 = _y - Constants.switchTrackHeight;
     if (_flip) {
@@ -18,14 +31,46 @@ public class SwitchTrack extends Element { //<>//
       x2 = t;
     }
 
-    line(x1, y1, x2, y1);
-    line(x1, y1, x2, y2);
+    Map<String, Integer> corners = new HashMap<String, Integer>();
+    corners.put("x1", x1);
+    corners.put("x2", x2);
+    corners.put("y1", y1);
+    corners.put("y2", y2);
 
-    if (Constants.debug) {
+    return corners;
+  }
+  
+  public void Display() {
+    Map<String, Integer> corners = GetCorners();
+    Integer x1 = corners.get("x1");
+    Integer x2 = corners.get("x2");
+    Integer y1 = corners.get("y1");
+    Integer y2 = corners.get("y2");
+    if (_mouseOverSwitchTrack) {
+      fill(50);
+      rect(min(x1, x2), min(y1, y2), abs(x1-x2), abs(y1-y2));
+    }
+
+    if (_position == Constants.terminal.B) {
+      strokeWeight(5);
+      line(x1, y1, x2, y1);
+      strokeWeight(1);
+      line(x1, y1, x2, y2);
+    } else {
+      strokeWeight(1);
+      line(x1, y1, x2, y1);
+      strokeWeight(5);
+      line(x1, y1, x2, y2);
+      strokeWeight(1);
+    }
+
+    if (Constants.useNodeCircle) {
       _circle.display(x1, y1, #3EF761, 'A');
       _circle.display(x2, y1, #F7923E, 'B');
       _circle.display(x2, y2, #FC2424, 'C');
+    }
 
+    if (Constants.debug) {
       int letterX;
       if (!_reverse) {
         letterX = x1 + abs((x1 - x2) / 2);
@@ -39,9 +84,14 @@ public class SwitchTrack extends Element { //<>//
         letterY = y1 + abs((y1 - y2) / 2);
       }
 
-      fill(#000000);
       textSize(20);
       textAlign(CENTER, CENTER);
+      fill(#000000);
+      text(_id, letterX-1, letterY);
+      text(_id, letterX+1, letterY);
+      text(_id, letterX, letterY-1);
+      text(_id, letterX, letterY+1);
+      fill(#ffffff);
       text(_id, letterX, letterY);
     }
   }

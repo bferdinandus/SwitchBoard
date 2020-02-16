@@ -4,12 +4,18 @@ public class NodeCircle {
   }
 
   public void display(Integer x, Integer y, Integer colour, Character letter) {
+    strokeWeight(1);
     fill(colour);
     circle(x, y, Constants.circleDiameter);
-
-    fill(#000000);
+    y-=2;
     textSize(15);
     textAlign(CENTER, CENTER);
-    text(letter, x, y-2);
+    fill(#ffffff);
+    text(letter, x+1, y);
+    text(letter, x, y+1);
+    text(letter, x-1, y);
+    text(letter, x, y-1);
+    fill(#000000);
+    text(letter, x, y);
   }
 }

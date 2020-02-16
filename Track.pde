@@ -1,5 +1,4 @@
 public class Track extends Element {
-  //private Boolean _reverse;
   private Integer _length;
 
   // constructors
@@ -24,17 +23,24 @@ public class Track extends Element {
 
     line(x1, y1, x2, y1);
 
-    if (Constants.debug) {
+    if (Constants.useNodeCircle) {
       _circle.display(x1, y1, #3EF761, 'A');
       _circle.display(x2, y1, #F7923E, 'B');
+    }
+    
+    if (Constants.debug) {
 
       Integer letterX = x1 + abs((x1 - x2) / 2);
-
-      fill(#000000);
+      Integer letterY = y1;
       textSize(20);
       textAlign(CENTER, CENTER);
-
-      text(_id, letterX, _y);
+      fill(#000000);
+      text(_id, letterX-1, letterY);
+      text(_id, letterX+1, letterY);
+      text(_id, letterX, letterY-1);
+      text(_id, letterX, letterY+1);
+      fill(#ffffff);
+      text(_id, letterX, letterY);
     }
   }
 }

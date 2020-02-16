@@ -36,13 +36,14 @@ public static class Configuration {
     options.put("numberOfSwitchTracks", 3);
     board.AddElement(Constants.element.Track, 12, options);
     board.AddElement(Constants.element.Track, 16, options);
+    options.put("numberOfSwitchTracks", 2);
     board.AddElement(Constants.element.Track, 20, options);
     board.AddElement(Constants.element.Track, 21, options);  
-    options.put("numberOfSwitchTracks", 2);
     board.AddElement(Constants.element.Track, 13, options);
     board.AddElement(Constants.element.Track, 17, options);
     options.put("numberOfSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 14, options);
+    board.AddElement(Constants.element.Track, 23, options);
 
     // arguments: id1, terminal bij id1, id2, terminal bij id2
     board.ConnectTerminals(22, Constants.terminal.B, 1, Constants.terminal.A);
@@ -54,7 +55,9 @@ public static class Configuration {
     board.ConnectTerminals(6, Constants.terminal.C, 7, Constants.terminal.A);
     board.ConnectTerminals(7, Constants.terminal.C, 8, Constants.terminal.C);
     board.ConnectTerminals(8, Constants.terminal.B, 9, Constants.terminal.A);
-    board.ConnectTerminals(4, Constants.terminal.B, 10, Constants.terminal.A);
+    //board.ConnectTerminals(4, Constants.terminal.B, 10, Constants.terminal.A);
+    board.ConnectTerminals(4, Constants.terminal.B, 23, Constants.terminal.B);
+    board.ConnectTerminals(23, Constants.terminal.A, 10, Constants.terminal.A);
     board.ConnectTerminals(5, Constants.terminal.B, 11, Constants.terminal.A);
     board.ConnectTerminals(6, Constants.terminal.B, 12, Constants.terminal.A);
     board.ConnectTerminals(7, Constants.terminal.B, 13, Constants.terminal.A);

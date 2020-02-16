@@ -11,7 +11,10 @@
  */
 
 public class Board {
-  Map<Integer, Map<String, Element>> _nodes = new TreeMap<Integer, Map<String, Element>>();
+  private Map<Integer, Map<String, Element>> _nodes = new TreeMap<Integer, Map<String, Element>>();
+  private Integer _circleDiameter;
+  
+  PApplet _parent;
 
   public Board() {
   }
@@ -31,6 +34,10 @@ public class Board {
 
     Element element;
     Map<String, Element> node = new HashMap<String, Element>();
+    Integer circleDiameter = Constants.circleDiameter;
+    if (!Constants.useNodeCircle) {
+      circleDiameter = 0;
+    }
     switch (type) {
     case SwitchTrack:
       element = new SwitchTrack(id);
@@ -45,11 +52,8 @@ public class Board {
     case Track:
       element = new Track(id);
       if (options.containsKey("numberOfSwitchTracks")) {
-        Integer l = ((Integer)options.get("numberOfSwitchTracks") * Constants.switchTrackWidth) + (((Integer)options.get("numberOfSwitchTracks") - 1) * Constants.circleDiameter);
+        Integer l = ((Integer)options.get("numberOfSwitchTracks") * Constants.switchTrackWidth) + (((Integer)options.get("numberOfSwitchTracks") - 1) * circleDiameter);
         ((Track) element).Length(l);
-      }
-      if (options.containsKey("length")) {
-        ((Track) element).Length((Integer)options.get("length"));
       }
 
       break;
@@ -66,11 +70,11 @@ public class Board {
       xy.put("y", height / 2);
       element.XY(xy);
       if (type == Constants.element.SwitchTrack) {
-        if (((SwitchTrack) element).Flip() == null) {
-          ((SwitchTrack) element).Flip(false);
+        if (((SwitchTrack)element).Flip() == null) {
+          ((SwitchTrack)element).Flip(false);
         }
-        if (((SwitchTrack) element).Reverse() == null) {
-          ((SwitchTrack) element).Reverse(false);
+        if (((SwitchTrack)element).Reverse() == null) {
+          ((SwitchTrack)element).Reverse(false);
         }
       }
     }
@@ -107,6 +111,11 @@ public class Board {
     Element element2 = GetElementById(id2);
     GetNodeById(id1).put(terminal1.toString(), element2);
     GetNodeById(id2).put(terminal2.toString(), element1);
+
+    Integer circleDiameter = Constants.circleDiameter;
+    if (!Constants.useNodeCircle) {
+      circleDiameter = 0;
+    }
 
     // element 2 ten opzichte van element 1 positioneren.
     Map<String, Integer> xy1 = element1.XY();
@@ -150,13 +159,15 @@ public class Board {
       // for debugging 
       // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 1");
       if (element2 instanceof SwitchTrack) {
-        xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - Constants.circleDiameter);
+        xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
       } else if (element2 instanceof Track) {
-        xy2.put("x", xy1.get("x") - ((Track) element2).Length() - Constants.circleDiameter);
+        xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
       }
+    } else if (element1 instanceof Track && element2.Reverse()) {
+      xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
     } else {
       // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 2");
-      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + Constants.circleDiameter);
+      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
     }
 
     // y positie voor het 2e element bepalen
@@ -177,7 +188,7 @@ public class Board {
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       }
-      
+
       if (!element1.Flip() && element2.Flip()) { 
         // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 6");
         // extra omhoog om rekening te houden met de flip
