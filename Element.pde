@@ -1,13 +1,15 @@
 public class Element {
   protected Integer _id, _x, _y;
-  protected Boolean _isPositioned = false;
+  protected Boolean _flip, _reverse, _isPositioned = false;
+  protected NodeCircle _circle = new NodeCircle();
 
   public Element (Integer id) {
     _id = id;
   }
 
-  public void display() {
+  public void Display() {
     // override this function in the sub classes
+    println("Element$display => function not overridden for element id: " + _id);
   };
 
   // functions
@@ -30,6 +32,26 @@ public class Element {
     xy.put("y", _y);
 
     return xy;
+  }
+
+  public Boolean Flip() 
+  {
+    return _flip;
+  }
+
+  public void Flip(Boolean flip) 
+  {
+    _flip = flip;
+  }
+
+  public Boolean Reverse()
+  {
+    return _reverse;
+  }
+
+  public void Reverse(Boolean reverse)
+  {
+    _reverse = reverse;
   }
 
   public Boolean IsPositioned()

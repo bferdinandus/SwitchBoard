@@ -25,13 +25,14 @@ public class Board {
   public void AddElement(Constants.element type, Integer id, Map<String, Object> options) 
   {
     if (NodeExists(id)) {
-      println("AddElement => node id: " + id + " already exists.");
+      println("Board$AddElement => node id: " + id + " already exists.");
       return;
     }
-    Map<String, Element> node;
+
     Element element;
+    Map<String, Element> node = new HashMap<String, Element>();
     switch (type) {
-    case SWITCHTRACK:
+    case SwitchTrack:
       element = new SwitchTrack(id);
       if (options.containsKey("flip")) {
         ((SwitchTrack) element).Flip((Boolean)options.get("flip"));
@@ -39,24 +40,38 @@ public class Board {
       if (options.containsKey("reverse")) {
         ((SwitchTrack) element).Reverse((Boolean)options.get("reverse"));
       }
-      node = new HashMap<String, Element>();
+
+      break;
+    case Track:
+      element = new Track(id);
+      if (options.containsKey("numberOfSwitchTracks")) {
+        Integer l = ((Integer)options.get("numberOfSwitchTracks") * Constants.switchTrackWidth) + (((Integer)options.get("numberOfSwitchTracks") - 1) * Constants.circleDiameter);
+        ((Track) element).Length(l);
+      }
+      if (options.containsKey("length")) {
+        ((Track) element).Length((Integer)options.get("length"));
+      }
 
       break;
     default:
       // niks doen
-      println("AddElement => Invalid type: " + type.toString() + " No element added.");
+      println("Board$AddElement => Invalid type: " + type.toString() + " No element added.");
       return;
     }
 
-    if (id == 1) {
+    if (_nodes.size() == 0) {
       // alleen voor het eerste id element de positie "hard" instellen. De rest gaat relatief ten opzichte van dit element
       Map<String, Integer> xy = new HashMap<String, Integer>();
       xy.put("x", 50);
       xy.put("y", height / 2);
       element.XY(xy);
-      if (type == Constants.element.SWITCHTRACK) {
-        ((SwitchTrack) element).Flip(false);
-        ((SwitchTrack) element).Reverse(false);
+      if (type == Constants.element.SwitchTrack) {
+        if (((SwitchTrack) element).Flip() == null) {
+          ((SwitchTrack) element).Flip(false);
+        }
+        if (((SwitchTrack) element).Reverse() == null) {
+          ((SwitchTrack) element).Reverse(false);
+        }
       }
     }
 
@@ -67,25 +82,29 @@ public class Board {
   public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2) 
   {
     if (!NodeExists(id1)) {
-      println("ConnectTerminals => Node id: " + id1 + " does not exist.");
+      println("Board$ConnectTerminals => Node id: " + id1 + " does not exist.");
       return;
     }
     if (!NodeExists(id2)) {
-      println("ConnectTerminals => Node id: " + id2 + " does not exist.");
+      println("Board$ConnectTerminals => Node id: " + id2 + " does not exist.");
       return;
     }
     if (GetNodeById(id1).containsKey(terminal1.toString())) {
-      println("ConnectTerminals => Terminal: " + terminal1.toString() + " on node id: " + id1 + " already taken.");
+      println("Board$ConnectTerminals => Terminal: " + terminal1.toString() + " on node id: " + id1 + " already taken.");
       return;
     }
     if (GetNodeById(id2).containsKey(terminal2.toString())) {
-      println("ConnectTerminals => Connecting node id: " + id1 + " and node id: " + id2 + ". Terminal: " + terminal2.toString() + " on node id: " + id2 + " already taken.");
+      println("Board$ConnectTerminals => Connecting node id: " + id1 + " and node id: " + id2 + ". Terminal: " + terminal2.toString() + " on node id: " + id2 + " already taken.");
       return;
     }
     // TODO: een type terminal check bouwen. Een recht stuk "Track" heeft bijvoorbeeld geen terminal C. Die zit alleen op een "SwitchTrack"
     // TODO: juiste type voor element 1 en 2 bepalen
-    SwitchTrack element1 = (SwitchTrack)GetElementById(id1);
-    SwitchTrack element2 = (SwitchTrack)GetElementById(id2);
+    Element element1 = GetElementById(id1);
+    if (!element1.IsPositioned()) {
+      println("Board$ConnectTerminals => Element id: " + id1 + " not positioned. Unable to connect terminals.");
+      return;
+    }
+    Element element2 = GetElementById(id2);
     GetNodeById(id1).put(terminal1.toString(), element2);
     GetNodeById(id2).put(terminal2.toString(), element1);
 
@@ -93,11 +112,16 @@ public class Board {
     Map<String, Integer> xy1 = element1.XY();
     Map<String, Integer> xy2 = new HashMap<String, Integer>();
 
-    // hier alvast reverse zetten als die null is, de onderstaande code heeft het nodig
+    // controleren of flip en reverse niet null zijn en anders op "false" zetten
+    // hier alvast flip and reverse zetten als die null zijn, de onderstaande code heeft het nodig
+    if (element2.Flip() == null) {
+      element2.Flip(false);
+    }
     if (element2.Reverse() == null) {
       element2.Reverse(false);
     }
 
+    // bepalen of het 2e element in "reverse" moet op basis van de te verbinden terminals en de "reverse" van het 1e element
     if (terminal1 == Constants.terminal.A && terminal2 == Constants.terminal.A && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
     }
@@ -108,46 +132,78 @@ public class Board {
       element2.Reverse(element1.Reverse());
     }
 
+    if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.B)
+      && terminal2 == Constants.terminal.A
+      && element1.Reverse() == !element2.Reverse()) {
+      element2.Reverse(element1.Reverse());
+    }
+
     if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C) 
       && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C) 
       && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
     }
 
-    // controleren of flip en reverse niet meer null zijn en anders op "false" zetten
-    if (element2.Flip() == null) {
-      element2.Flip(false);
-    }
-
     // x positie voor het 2e element bepalen
     if (element1.Reverse()
-      && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C) 
-      && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C)) {
-      xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - Constants.circleDiameter);
+      && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
+      // for debugging 
+      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 1");
+      if (element2 instanceof SwitchTrack) {
+        xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - Constants.circleDiameter);
+      } else if (element2 instanceof Track) {
+        xy2.put("x", xy1.get("x") - ((Track) element2).Length() - Constants.circleDiameter);
+      }
     } else {
+      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 2");
       xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + Constants.circleDiameter);
     }
 
     // y positie voor het 2e element bepalen
     if (terminal1 == Constants.terminal.C) {
-      xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
-      if (element2.Flip()) { 
+      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 3");
+      if (element2 instanceof SwitchTrack) {
+        if (element1.Flip()) { 
+          // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 4");
+          xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+        } else {
+          // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 5");
+          xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
+        }
+      } else if (element2 instanceof Track) {
+        if (element1.Flip()) { 
+          xy2.put("y", xy1.get("y"));
+        } else {
+          xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
+        }
+      }
+      
+      if (!element1.Flip() && element2.Flip()) { 
+        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 6");
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") - Constants.switchTrackHeight);
       }
-    } else if (terminal1 == Constants.terminal.B && terminal2 == Constants.terminal.C) {
-      xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+
+      if (element1.Flip() && !element2.Flip()) { 
+        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 7");
+        // extra omhoog om rekening te houden met de flip
+        xy2.put("y", xy2.get("y") + Constants.switchTrackHeight);
+      }
     } else if (terminal2 == Constants.terminal.C) {
+      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 8");
       if (element2.Flip()) { 
+        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 9");
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
+        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 10");
         xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
       }
     } else {
+      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 11");
       xy2.put("y", xy1.get("y"));
     }
 
-    // positie vastzetten in 2e element
+    // positie opslaan in 2e element
     element2.XY(xy2);
   }
 
