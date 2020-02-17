@@ -1,10 +1,10 @@
-public class SwitchTrack extends Element { //<>//
+public class SwitchTrack extends Element { 
   PApplet _parent;
   private Constants.terminal _position;
   private Boolean _mouseOverSwitchTrack = false;
 
   // constructors
-    public SwitchTrack(Integer id) {    
+  public SwitchTrack(Integer id) {    
     // first call contructor of the parent
     super(id);
     _position = Constants.terminal.C;
@@ -39,18 +39,34 @@ public class SwitchTrack extends Element { //<>//
 
     return corners;
   }
-  
+
+  public Boolean MouseOverCheck(Integer x, Integer y) {
+    Map<String, Integer> corners = GetCorners();
+    Integer x1 = corners.get("x1");
+    Integer x2 = corners.get("x2");
+    Integer y1 = corners.get("y1");
+    Integer y2 = corners.get("y2");
+
+    _mouseOverSwitchTrack = (x > min(x1, x2) && x < max(x1, x2)
+      && y > min(y1, y2) && y < max(y1, y2));
+      
+    return _mouseOverSwitchTrack;
+  }
+
   public void Display() {
     Map<String, Integer> corners = GetCorners();
     Integer x1 = corners.get("x1");
     Integer x2 = corners.get("x2");
     Integer y1 = corners.get("y1");
     Integer y2 = corners.get("y2");
+    
     if (_mouseOverSwitchTrack) {
-      fill(50);
+      noStroke();
+      fill(230);
       rect(min(x1, x2), min(y1, y2), abs(x1-x2), abs(y1-y2));
-    }
+    } 
 
+    stroke(0);
     if (_position == Constants.terminal.B) {
       strokeWeight(5);
       line(x1, y1, x2, y1);

@@ -1,5 +1,5 @@
 public class Track extends Element {
-  private Integer _length;
+  private Integer _length, _lengthInSwitchTracks = 1;
 
   // constructors
   public Track(Integer id) {
@@ -7,6 +7,14 @@ public class Track extends Element {
     super(id);
     _flip = false;
     _reverse = false;
+  }
+
+  public Integer LengthInSwitchTracks() {
+    return _lengthInSwitchTracks;
+  }
+
+  public void LengthInSwitchTracks(Integer lengthInSwitchTracks) {
+    _lengthInSwitchTracks = lengthInSwitchTracks;
   }
 
   public Integer Length() {
@@ -27,7 +35,7 @@ public class Track extends Element {
       _circle.display(x1, y1, #3EF761, 'A');
       _circle.display(x2, y1, #F7923E, 'B');
     }
-    
+
     if (Constants.debug) {
 
       Integer letterX = x1 + abs((x1 - x2) / 2);

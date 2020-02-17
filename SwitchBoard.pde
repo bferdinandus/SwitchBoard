@@ -16,6 +16,7 @@ void setup() {
 }
 
 void draw() {
+  background(204);
   Map<Integer, Map<String, Element>> nodes = board.GetNodes();
   for (Map<String, Element> node : nodes.values()) {
     Element element = node.get("self"); 
@@ -23,6 +24,28 @@ void draw() {
       element.Display();
     } else {
       println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
+    }
+  }
+}
+
+void mouseMoved() {
+  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
+  for (Map<String, Element> node : nodes.values()) {
+    Element element = node.get("self"); 
+    if (element instanceof SwitchTrack) {
+      ((SwitchTrack) element).MouseOverCheck(mouseX, mouseY);
+    }
+  }
+}
+
+void mouseClicked() {
+  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
+  for (Map<String, Element> node : nodes.values()) {
+    Element element = node.get("self"); 
+    if (element instanceof SwitchTrack) {
+      if (((SwitchTrack) element).MouseOverCheck(mouseX, mouseY)) {
+        ((SwitchTrack) element).Toggle();
+      };
     }
   }
 }

@@ -12,9 +12,6 @@
 
 public class Board {
   private Map<Integer, Map<String, Element>> _nodes = new TreeMap<Integer, Map<String, Element>>();
-  private Integer _circleDiameter;
-  
-  PApplet _parent;
 
   public Board() {
   }
@@ -34,10 +31,6 @@ public class Board {
 
     Element element;
     Map<String, Element> node = new HashMap<String, Element>();
-    Integer circleDiameter = Constants.circleDiameter;
-    if (!Constants.useNodeCircle) {
-      circleDiameter = 0;
-    }
     switch (type) {
     case SwitchTrack:
       element = new SwitchTrack(id);
@@ -51,9 +44,8 @@ public class Board {
       break;
     case Track:
       element = new Track(id);
-      if (options.containsKey("numberOfSwitchTracks")) {
-        Integer l = ((Integer)options.get("numberOfSwitchTracks") * Constants.switchTrackWidth) + (((Integer)options.get("numberOfSwitchTracks") - 1) * circleDiameter);
-        ((Track) element).Length(l);
+      if (options.containsKey("lengthInSwitchTracks")) {
+        ((Track) element).LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
       }
 
       break;
@@ -153,11 +145,20 @@ public class Board {
       element2.Reverse(!element1.Reverse());
     }
 
+    // indien het element een track is, de lengte uitrekenen
+    if (element1 instanceof Track && ((Track) element1).Length() == null) {
+      Integer l = (((Track) element1).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element1).LengthInSwitchTracks() - 1) * circleDiameter);
+      ((Track) element1).Length(l);
+    }
+
+    if (element2 instanceof Track && ((Track) element2).Length() == null) {
+      Integer l = (((Track) element2).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element2).LengthInSwitchTracks() - 1) * circleDiameter);
+      ((Track) element2).Length(l);
+    }
+
     // x positie voor het 2e element bepalen
     if (element1.Reverse()
       && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
-      // for debugging 
-      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 1");
       if (element2 instanceof SwitchTrack) {
         xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
       } else if (element2 instanceof Track) {
@@ -166,19 +167,15 @@ public class Board {
     } else if (element1 instanceof Track && element2.Reverse()) {
       xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
     } else {
-      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 2");
       xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
     }
 
-    // y positie voor het 2e element bepalen
     if (terminal1 == Constants.terminal.C) {
-      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 3");
+      // y positie voor het 2e element bepalen
       if (element2 instanceof SwitchTrack) {
         if (element1.Flip()) { 
-          // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 4");
           xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
         } else {
-          // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 5");
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       } else if (element2 instanceof Track) {
@@ -190,27 +187,21 @@ public class Board {
       }
 
       if (!element1.Flip() && element2.Flip()) { 
-        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 6");
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") - Constants.switchTrackHeight);
       }
 
       if (element1.Flip() && !element2.Flip()) { 
-        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 7");
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") + Constants.switchTrackHeight);
       }
     } else if (terminal2 == Constants.terminal.C) {
-      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 8");
       if (element2.Flip()) { 
-        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 9");
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
-        // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 10");
         xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
       }
     } else {
-      // println("Board$ConnectTerminals => id1: " + id1 + " id1: " + id2 + " 11");
       xy2.put("y", xy1.get("y"));
     }
 

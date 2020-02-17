@@ -1,3 +1,4 @@
+# Processing
 .DS_Store
 applet
 application.linux-arm64
@@ -8,3 +9,11 @@ application.windows32
 application.windows64
 application.macosx
 out
+
+# VisualStudioCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace

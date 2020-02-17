@@ -1,13 +1,13 @@
 public static class Configuration {
-  
+
   public static void loadSingleSwitch(Board board) {
     board.AddElement(Constants.element.SwitchTrack, 1);
   }
-  
+
   public static void loadSchaduwStation(Board board) {
     // arguments: element type:enum, element Id:Integer, options: Map (optioneel)
     Map<String, Object> options = new HashMap<String, Object>();
-    options.put("numberOfSwitchTracks", 1);
+    options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 22, options);
     options.clear();
     options.put("flip", true);
@@ -28,20 +28,20 @@ public static class Configuration {
     board.AddElement(Constants.element.SwitchTrack, 9, options);
     board.AddElement(Constants.element.SwitchTrack, 10);
     options.clear();
-    options.put("numberOfSwitchTracks", 4);
+    options.put("lengthInSwitchTracks", 4);
     board.AddElement(Constants.element.Track, 11, options);
     board.AddElement(Constants.element.Track, 15, options);
     board.AddElement(Constants.element.Track, 18, options);
     board.AddElement(Constants.element.Track, 19, options);
-    options.put("numberOfSwitchTracks", 3);
+    options.put("lengthInSwitchTracks", 3);
     board.AddElement(Constants.element.Track, 12, options);
     board.AddElement(Constants.element.Track, 16, options);
-    options.put("numberOfSwitchTracks", 2);
+    options.put("lengthInSwitchTracks", 2);
     board.AddElement(Constants.element.Track, 20, options);
     board.AddElement(Constants.element.Track, 21, options);  
     board.AddElement(Constants.element.Track, 13, options);
     board.AddElement(Constants.element.Track, 17, options);
-    options.put("numberOfSwitchTracks", 1);
+    options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 14, options);
     board.AddElement(Constants.element.Track, 23, options);
 
@@ -55,7 +55,6 @@ public static class Configuration {
     board.ConnectTerminals(6, Constants.terminal.C, 7, Constants.terminal.A);
     board.ConnectTerminals(7, Constants.terminal.C, 8, Constants.terminal.C);
     board.ConnectTerminals(8, Constants.terminal.B, 9, Constants.terminal.A);
-    //board.ConnectTerminals(4, Constants.terminal.B, 10, Constants.terminal.A);
     board.ConnectTerminals(4, Constants.terminal.B, 23, Constants.terminal.B);
     board.ConnectTerminals(23, Constants.terminal.A, 10, Constants.terminal.A);
     board.ConnectTerminals(5, Constants.terminal.B, 11, Constants.terminal.A);
