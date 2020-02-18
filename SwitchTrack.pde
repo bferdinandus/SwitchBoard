@@ -1,7 +1,6 @@
 public class SwitchTrack extends Element { 
   PApplet _parent;
   private Constants.terminal _position;
-  private Boolean _mouseOverSwitchTrack = false;
 
   // constructors
   public SwitchTrack(Integer id) {    
@@ -47,8 +46,8 @@ public class SwitchTrack extends Element {
     Integer y1 = corners.get("y1");
     Integer y2 = corners.get("y2");
 
-    _mouseOverSwitchTrack = (x > min(x1, x2) && x < max(x1, x2)
-      && y > min(y1, y2) && y < max(y1, y2));
+    _mouseOverSwitchTrack = (x >= min(x1, x2) && x <= max(x1, x2)
+      && y >= min(y1, y2) && y <= max(y1, y2));
       
     return _mouseOverSwitchTrack;
   }

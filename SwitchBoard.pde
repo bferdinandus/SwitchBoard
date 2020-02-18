@@ -1,20 +1,19 @@
 import java.util.TreeMap;
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-Board board = new Board();
+Board _board = new Board();
 
 int _lastMillis = millis();
 
 void setup() {
   size(600, 400);
+  frameRate(60);
+  //Configuration.loadSingleSwitch(_board);
+  Configuration.loadSchaduwStation(_board);
 
-  //Configuration.loadSingleSwitch(board);
-  Configuration.loadSchaduwStation(board);
-
-  //println(board.GetNodes());
+  //println(_board.GetNodes());
 }
 
 void draw() {
@@ -24,36 +23,44 @@ void draw() {
   textAlign(LEFT, TOP);
   textSize(10);
   text("fps: " + round(frameRate), 5, 5);
-  
-  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
-  for (Map<String, Element> node : nodes.values()) {
-    Element element = node.get("self"); 
-    if (element.IsPositioned()) {
-      element.Display();
-    } else {
-      println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
-    }
-  }
+
+  _board.Display();
+
 }
 
 void mouseMoved() {
-  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
-  for (Map<String, Element> node : nodes.values()) {
-    Element element = node.get("self"); 
-    if (element instanceof SwitchTrack) {
-      ((SwitchTrack) element).MouseOverCheck(mouseX, mouseY);
-    }
-  }
+  _board.MouseOverCheck(mouseX, mouseY);
+}
+
+void mouseDragged() {
+  _board.MouseOverCheck(mouseX, mouseY);
+}
+
+void mousePressed() {
+  _board.MousePressed(mouseX, mouseY);
+}
+
+void mouseReleased() {
+  _board.MouseReleased(mouseX, mouseY);
 }
 
 void mouseClicked() {
-  Map<Integer, Map<String, Element>> nodes = board.GetNodes();
+  _board.MouseClicked(mouseX, mouseY, mouseButton);
+  
+  Map<Integer, Map<String, Element>> nodes = _board.GetNodes();
   for (Map<String, Element> node : nodes.values()) {
     Element element = node.get("self"); 
-    if (element instanceof SwitchTrack) {
-      if (((SwitchTrack) element).MouseOverCheck(mouseX, mouseY)) {
+    if (element.MouseOverCheck(mouseX, mouseY)) {
+      if (element instanceof SwitchTrack) {
         ((SwitchTrack) element).Toggle();
       };
+      if (element instanceof Track) {
+        if (mouseButton == LEFT) {
+          _board.FromTrack((Track) element);
+        } else if (mouseButton == RIGHT) {
+          _board.ToTrack((Track) element);
+        }
+      }
     }
   }
 }

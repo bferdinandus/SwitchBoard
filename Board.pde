@@ -9,11 +9,36 @@
  /
  A--B
  */
-
 public class Board {
   private Map<Integer, Map<String, Element>> _nodes = new TreeMap<Integer, Map<String, Element>>();
+  private ArrayList<Button> _buttons = new ArrayList();
+
+  private Track _fromTrack, _toTrack;
 
   public Board() {
+    _buttons.add(new Button("Reset", 300, 5));
+    _buttons.add(new Button("Bereken!", 300, 30));
+  }
+
+  public Track FromTrack() {
+    return _fromTrack;
+  }
+
+  public Track ToTrack() {
+    return _toTrack;
+  }
+
+  public void FromTrack(Track track) {
+    _fromTrack = track;
+  }
+
+  public void ToTrack(Track track) {
+    _toTrack = track;
+  }
+
+  public void ResetTracks() {
+    _fromTrack = null;
+    _toTrack = null;
   }
 
   public void AddElement(Constants.element type, Integer id)
@@ -226,5 +251,85 @@ public class Board {
 
   private boolean NodeExists(Integer id) {
     return _nodes.containsKey(id);
+  }
+
+  public void Display() {
+    DisplayText();
+    DisplayTracks();
+    DisplayButtons();
+  }
+
+  private void DisplayButtons()
+  {
+    for (Button button : _buttons) {
+      button.Display();
+    }
+  }
+
+  private void DisplayText() {
+    String fromTrackId = "", toTrackId = "";
+    if (_fromTrack != null) {
+      fromTrackId = _fromTrack.Id().toString();
+    }
+
+    if (_toTrack != null) {
+      toTrackId = _toTrack.Id().toString();
+    }
+
+    fill(#000000);
+    textAlign(LEFT, TOP);
+    textSize(15);
+    text("Automatisch route berekenen.\nStartspoor: " + fromTrackId + "\nEindspoor: " + toTrackId, 50, 5 );
+  }
+
+  private void DisplayTracks() {
+    for (Map<String, Element> node : _nodes.values()) {
+      Element element = node.get("self"); 
+      if (element.IsPositioned()) {
+        element.Display();
+      } else {
+        println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
+      }
+    }
+  }
+
+  public void MouseOverCheck(Integer x, Integer y) {
+    // check buttons
+    for (Button button : _buttons) {
+      button.MouseOverCheck(x, y);
+    }
+
+    // check board elements
+    for (Map<String, Element> node : _nodes.values()) {
+      Element element = node.get("self"); 
+      element.MouseOverCheck(x, y);
+    }
+  }
+
+  public void MouseClicked(Integer x, Integer y, Integer mButton) {
+    // check buttons
+    for (Button button : _buttons) {
+      if (button.MouseOverCheck(x, y) && mButton == LEFT && button._text == "Reset") {
+        ResetTracks();
+      };
+    }
+  }
+
+  public void MousePressed(Integer x, Integer y) {
+    // check buttons
+    for (Button button : _buttons) {
+      if (button.MouseOverCheck(x, y)) {
+        button.MousePressed();
+      };
+    }
+  }
+
+  public void MouseReleased(Integer x, Integer y) {
+    // check buttons
+    for (Button button : _buttons) {
+      if (button.MouseOverCheck(x, y)) {
+        button.MouseReleased();
+      };
+    }
   }
 }

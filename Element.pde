@@ -2,7 +2,8 @@ public class Element {
   protected Integer _id, _x, _y;
   protected Boolean _flip, _reverse, _isPositioned = false;
   protected NodeCircle _circle = new NodeCircle();
-
+  protected Boolean _mouseOverSwitchTrack = false;
+  
   public Element (Integer id) {
     _id = id;
   }
@@ -57,5 +58,10 @@ public class Element {
   public Boolean IsPositioned()
   {
     return _isPositioned;
+  }
+  
+  public Boolean MouseOverCheck(Integer x, Integer y) {
+    // override this function in the subclasses
+    return false;
   }
 }
