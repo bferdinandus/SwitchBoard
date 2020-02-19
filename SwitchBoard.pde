@@ -11,7 +11,8 @@ void setup() {
   size(600, 400);
   frameRate(60);
   //Configuration.loadSingleSwitch(_board);
-  Configuration.loadSchaduwStation(_board);
+  // Configuration.loadSchaduwStation(_board);
+  Configuration.loadSmallBoard(_board);
 
   //println(_board.GetNodes());
 }
@@ -25,7 +26,6 @@ void draw() {
   text("fps: " + round(frameRate), 5, 5);
 
   _board.Display();
-
 }
 
 void mouseMoved() {
@@ -33,7 +33,7 @@ void mouseMoved() {
 }
 
 void mouseDragged() {
-  _board.MouseOverCheck(mouseX, mouseY);
+  // _board.MouseOverCheck(mouseX, mouseY);
 }
 
 void mousePressed() {
@@ -46,21 +46,4 @@ void mouseReleased() {
 
 void mouseClicked() {
   _board.MouseClicked(mouseX, mouseY, mouseButton);
-  
-  Map<Integer, Map<String, Element>> nodes = _board.GetNodes();
-  for (Map<String, Element> node : nodes.values()) {
-    Element element = node.get("self"); 
-    if (element.MouseOverCheck(mouseX, mouseY)) {
-      if (element instanceof SwitchTrack) {
-        ((SwitchTrack) element).Toggle();
-      };
-      if (element instanceof Track) {
-        if (mouseButton == LEFT) {
-          _board.FromTrack((Track) element);
-        } else if (mouseButton == RIGHT) {
-          _board.ToTrack((Track) element);
-        }
-      }
-    }
-  }
 }

@@ -16,8 +16,8 @@ public class Board {
   private Track _fromTrack, _toTrack;
 
   public Board() {
-    _buttons.add(new Button("Reset", 300, 5));
-    _buttons.add(new Button("Bereken!", 300, 30));
+    _buttons.add(new Button(Constants.buttons.Reset, "Reset", 300, 5));
+    _buttons.add(new Button(Constants.buttons.PlanRoute, "Bereken!", 300, 30));
   }
 
   public Track FromTrack() {
@@ -36,9 +36,15 @@ public class Board {
     _toTrack = track;
   }
 
-  public void ResetTracks() {
+  private void ResetTracks() {
     _fromTrack = null;
     _toTrack = null;
+  }
+
+  private void PlanRoute() {
+    Planner p = new Planner(this);
+    Object route = p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
+    p.ExecuteRoute(route);
   }
 
   public void AddElement(Constants.element type, Integer id)
@@ -309,9 +315,30 @@ public class Board {
   public void MouseClicked(Integer x, Integer y, Integer mButton) {
     // check buttons
     for (Button button : _buttons) {
-      if (button.MouseOverCheck(x, y) && mButton == LEFT && button._text == "Reset") {
+      if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.Reset) {
         ResetTracks();
       };
+
+      if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.PlanRoute) {
+        PlanRoute();
+      };
+    }
+
+    // check elements
+    for (Map<String, Element> node : _nodes.values()) {
+      Element element = node.get("self"); 
+      if (element.MouseOverCheck(mouseX, mouseY)) {
+        if (element instanceof SwitchTrack) {
+          ((SwitchTrack) element).Toggle();
+        };
+        if (element instanceof Track) {
+          if (mouseButton == LEFT) {
+            _board.FromTrack((Track) element);
+          } else if (mouseButton == RIGHT) {
+            _board.ToTrack((Track) element);
+          }
+        }
+      }
     }
   }
 
@@ -327,9 +354,8 @@ public class Board {
   public void MouseReleased(Integer x, Integer y) {
     // check buttons
     for (Button button : _buttons) {
-      if (button.MouseOverCheck(x, y)) {
-        button.MouseReleased();
-      };
+      button.MouseOverCheck(x, y);
+      button.MouseReleased();
     }
   }
 }

@@ -2,12 +2,13 @@ public class Button {
   private String _text;
   private Integer _x, _y, _margin = 2, _textSize = 15, _textWidth;
   private Boolean _mouseOver = false, _mousePressed = false;
-  
+  private Constants.buttons _id;
 
   Button() {
   }
 
-  Button(String text, Integer x, Integer y) {
+  Button(Constants.buttons id, String text, Integer x, Integer y) {
+    _id = id;
     _text = text;
     _x = x;
     _y = y;
@@ -21,6 +22,10 @@ public class Button {
       && y >= y1 && y <= y2);
 
     return _mouseOver;
+  }
+  
+  public Constants.buttons Id() {
+    return _id;
   }
   
   public void MousePressed() {

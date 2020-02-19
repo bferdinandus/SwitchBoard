@@ -4,6 +4,26 @@ public static class Configuration {
     board.AddElement(Constants.element.SwitchTrack, 1);
   }
 
+  public static void loadSmallBoard(Board board) {
+    Map<String, Object> options = new HashMap<String, Object>();
+    options.put("lengthInSwitchTracks", 1);
+    board.AddElement(Constants.element.Track, 1, options);
+    options.clear();
+    board.AddElement(Constants.element.SwitchTrack, 2);
+    board.AddElement(Constants.element.SwitchTrack, 3);
+    options.put("lengthInSwitchTracks", 2);
+    board.AddElement(Constants.element.Track, 4, options);
+    options.put("lengthInSwitchTracks", 1);
+    board.AddElement(Constants.element.Track, 5, options);
+    board.AddElement(Constants.element.Track, 6, options);
+
+    board.ConnectTerminals(1, Constants.terminal.B, 2, Constants.terminal.A);
+    board.ConnectTerminals(2, Constants.terminal.B, 4, Constants.terminal.A);
+    board.ConnectTerminals(2, Constants.terminal.C, 3, Constants.terminal.A);
+    board.ConnectTerminals(3, Constants.terminal.B, 5, Constants.terminal.A);
+    board.ConnectTerminals(3, Constants.terminal.C, 6, Constants.terminal.A);
+  }
+
   public static void loadSchaduwStation(Board board) {
     // arguments: element type:enum, element Id:Integer, options: Map (optioneel)
     Map<String, Object> options = new HashMap<String, Object>();

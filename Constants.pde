@@ -13,6 +13,11 @@ public static class Constants {
       Track
   }
 
+  public static enum buttons {
+    Reset, 
+      PlanRoute
+  }
+
   public static enum terminal {
     A("termA"), 
       B("termB"), 
