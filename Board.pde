@@ -42,9 +42,16 @@ public class Board {
   }
 
   private void PlanRoute() {
+    ResetHighlights();
     Planner p = new Planner(this);
-    Object route = p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
-    p.ExecuteRoute(route);
+    p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
+    p.ExecuteRoute();
+  }
+
+  private void ResetHighlights() {
+    for (Map<String, Element> node : _nodes.values()) {
+      node.get("self").Highlight(false);
+    }
   }
 
   public void AddElement(Constants.element type, Integer id)
@@ -329,6 +336,7 @@ public class Board {
       Element element = node.get("self"); 
       if (element.MouseOverCheck(mouseX, mouseY)) {
         if (element instanceof SwitchTrack) {
+          ResetHighlights();
           ((SwitchTrack) element).Toggle();
         };
         if (element instanceof Track) {

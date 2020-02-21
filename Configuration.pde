@@ -8,20 +8,27 @@ public static class Configuration {
     Map<String, Object> options = new HashMap<String, Object>();
     options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 1, options);
-    options.clear();
-    board.AddElement(Constants.element.SwitchTrack, 2);
-    board.AddElement(Constants.element.SwitchTrack, 3);
-    options.put("lengthInSwitchTracks", 2);
     board.AddElement(Constants.element.Track, 4, options);
+    board.AddElement(Constants.element.Track, 8, options);
+    options.put("lengthInSwitchTracks", 2);
+    
     options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 5, options);
     board.AddElement(Constants.element.Track, 6, options);
 
+    options.clear();
+    board.AddElement(Constants.element.SwitchTrack, 2);
+    board.AddElement(Constants.element.SwitchTrack, 3);
+    options.put("flip", true);
+    board.AddElement(Constants.element.SwitchTrack, 7, options);
+
     board.ConnectTerminals(1, Constants.terminal.B, 2, Constants.terminal.A);
-    board.ConnectTerminals(2, Constants.terminal.B, 4, Constants.terminal.A);
+    board.ConnectTerminals(2, Constants.terminal.B, 7, Constants.terminal.A);
     board.ConnectTerminals(2, Constants.terminal.C, 3, Constants.terminal.A);
     board.ConnectTerminals(3, Constants.terminal.B, 5, Constants.terminal.A);
     board.ConnectTerminals(3, Constants.terminal.C, 6, Constants.terminal.A);
+    board.ConnectTerminals(7, Constants.terminal.B, 4, Constants.terminal.A);
+    board.ConnectTerminals(7, Constants.terminal.C, 8, Constants.terminal.A);
   }
 
   public static void loadSchaduwStation(Board board) {

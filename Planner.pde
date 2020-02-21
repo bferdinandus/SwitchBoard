@@ -1,42 +1,54 @@
-public class Planner { //<>// //<>// //<>//
+public class Planner { //<>//
   ArrayList<Integer> _route = new ArrayList<Integer>();
   ArrayList<Integer> _stack = new ArrayList<Integer>();
   ArrayList<Integer> _checked = new ArrayList<Integer>();
   Board _board;
 
-  private class RouteElement {
-    private Integer _id;
-    private Constants.terminal _terminal;
-
-    RouteElement(Integer id, Constants.terminal terminal) {
-      _id = id;
-      _terminal = terminal;
-    }
-
-    public Integer Id() { 
-      return _id;
-    }
-    public Constants.terminal Terminal() { 
-      return _terminal;
-    }
-  }
-
   Planner(Board board) {
     _board = board;
   }
 
-  public Object CalculateRoute (Integer trackId1, Integer trackId2) {
+  public void CalculateRoute (Integer trackId1, Integer trackId2) {
 
     //RouteElement rt = new RouteElement(1, Constants.terminal.A);
     //int x = rt.Id();
+    println("Begin route berekenen...");
     _stack.add(trackId1);
-
     SearchStack(trackId2);
-
-    return new Object();
   }
 
-  public void ExecuteRoute(Object obj) {
+  public void ExecuteRoute() {
+    for (Integer i = 0; i < _route.size(); i++) { 
+      // size - 1 omdat de laatste in een route altijd een track zal zijn.
+      // die heeft geen acties
+      Map<String, Element> currentNode = _board.GetNodeById(_route.get(i));
+      Element currentElement = currentNode.get("self");
+      currentElement.Highlight(true);
+      if (i < _route.size() - 1) {
+        Map<String, Element> nextNode = _board.GetNodeById(_route.get(i + 1));
+        Element nextElement = nextNode.get("self");
+
+        if (currentElement instanceof SwitchTrack) {
+          // huidige wissel goed zetten
+          if (currentNode.get(Constants.terminal.B.toString()).Id() == nextElement.Id()) {
+            ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.B);
+          }
+          if (currentNode.get(Constants.terminal.C.toString()).Id() == nextElement.Id()) {
+            ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.C);
+          }
+        }
+        
+        if (nextElement instanceof SwitchTrack) {
+          // volgende wissel goed zetten
+          if (currentElement.Id() == nextNode.get(Constants.terminal.B.toString()).Id()) {
+            ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.B);
+          }
+          if (currentElement.Id() == nextNode.get(Constants.terminal.C.toString()).Id()) {
+            ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.C);
+          }
+        }
+      }
+    }
   }
 
   private void SearchStack(Integer targetId) {
@@ -48,6 +60,14 @@ public class Planner { //<>// //<>// //<>//
 
     if (!_route.contains(currentNodeId)) {
       _route.add(currentNodeId);
+    }
+
+    if (currentNodeId == targetId) {
+      println("Doel gevonden");
+      println("stack " + _stack);
+      println("checked " + _checked);
+      println("route " + _route);
+      return ;
     }
 
     Integer nextNodeId = GetValidUncheckedElementId(currentNodeId);
@@ -65,13 +85,6 @@ public class Planner { //<>// //<>// //<>//
         println("route " + _route);
         return;
       }
-    } else if (nextNodeId == targetId) {
-      _route.add(nextNodeId);
-      println("Doel gevonden");
-      println("stack " + _stack);
-      println("checked " + _checked);
-      println("route " + _route);
-      return ;
     } else {
       _stack.add(nextNodeId);
     }
@@ -79,6 +92,7 @@ public class Planner { //<>// //<>// //<>//
     if (!_checked.contains(currentNodeId)) {
       _checked.add(currentNodeId);
     }
+
     println("stack " + _stack);
     println("checked " + _checked);
     println("route " + _route);

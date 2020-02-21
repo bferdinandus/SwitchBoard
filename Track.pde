@@ -27,7 +27,7 @@ public class Track extends Element {
 
   public Boolean MouseOverCheck(Integer x, Integer y) {
     Integer x1 = _x, x2 = _x + _length; 
-    Integer y1 = _y - 5, y2 = _y + 5;
+    Integer y1 = _y - (Constants.trackBoxHeight / 2), y2 = _y + (Constants.trackBoxHeight / 2) +1;
 
     _mouseOverSwitchTrack = (x >= x1 && x <= x2
       && y >= y1 && y <= y2);
@@ -41,12 +41,17 @@ public class Track extends Element {
 
     if (_mouseOverSwitchTrack) {
       noStroke();
-      fill(255);
-      rect(x1, y1 - 5, _length, 11);
+      fill(230);
+      rect(x1, y1 - (Constants.trackBoxHeight / 2), _length, Constants.trackBoxHeight+1);
     } 
 
     stroke(0);
     strokeWeight(5);
+    if (_highlight) {
+      stroke(#F5DB7E);
+    } else {
+      stroke(0);
+    }
     line(x1, y1, x2, y1);
 
     if (Constants.useNodeCircle) {
