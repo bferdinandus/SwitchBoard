@@ -1,6 +1,6 @@
-public class NodeCircle {
+public class TerminalCircle {
   //constructor
-  public NodeCircle() {
+  public TerminalCircle() {
   }
 
   public void display(Integer x, Integer y, Integer colour, Character letter) {

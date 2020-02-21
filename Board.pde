@@ -10,10 +10,11 @@
  A--B
  */
 public class Board {
-  private Map<Integer, Map<String, Element>> _nodes = new TreeMap<Integer, Map<String, Element>>();
+  private Map<Integer, Node> _nodes = new TreeMap<Integer, Node>();
   private ArrayList<Button> _buttons = new ArrayList();
 
   private Track _fromTrack, _toTrack;
+  private Boolean _displayRouteError = false;
 
   public Board() {
     _buttons.add(new Button(Constants.buttons.Reset, "Reset", 300, 5));
@@ -43,13 +44,18 @@ public class Board {
 
   private void PlanRoute() {
     ResetHighlights();
+    _displayRouteError = false;
     Planner p = new Planner(this);
-    p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
-    p.ExecuteRoute();
+    Boolean calculateSuccess = p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
+    if (calculateSuccess) {
+      p.ExecuteRoute();
+    } else {
+      _displayRouteError = true;
+    }
   }
 
   private void ResetHighlights() {
-    for (Map<String, Element> node : _nodes.values()) {
+    for (Node node : _nodes.values()) {
       node.get("self").Highlight(false);
     }
   }
@@ -68,7 +74,7 @@ public class Board {
     }
 
     Element element;
-    Map<String, Element> node = new HashMap<String, Element>();
+    Node node = new Node();
     switch (type) {
     case SwitchTrack:
       element = new SwitchTrack(id);
@@ -252,12 +258,12 @@ public class Board {
     return GetNodeById(id).get("self");
   }
 
-  public Map<Integer, Map<String, Element>> GetNodes() 
+  public Map<Integer, Node> GetNodes() 
   {
     return _nodes;
   }
 
-  private Map<String, Element> GetNodeById(Integer id) 
+  private Node GetNodeById(Integer id) 
   {
     return _nodes.get(id);
   }
@@ -293,10 +299,17 @@ public class Board {
     textAlign(LEFT, TOP);
     textSize(15);
     text("Automatisch route berekenen.\nStartspoor: " + fromTrackId + "\nEindspoor: " + toTrackId, 50, 5 );
+
+    if (_displayRouteError) {
+      fill(#FF0000);
+      textAlign(LEFT, TOP);
+      textSize(15);
+      text("Route niet mogelijk", 250, 50);
+    }
   }
 
   private void DisplayTracks() {
-    for (Map<String, Element> node : _nodes.values()) {
+    for (Node node : _nodes.values()) {
       Element element = node.get("self"); 
       if (element.IsPositioned()) {
         element.Display();
@@ -313,7 +326,7 @@ public class Board {
     }
 
     // check board elements
-    for (Map<String, Element> node : _nodes.values()) {
+    for (Node node : _nodes.values()) {
       Element element = node.get("self"); 
       element.MouseOverCheck(x, y);
     }
@@ -324,6 +337,7 @@ public class Board {
     for (Button button : _buttons) {
       if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.Reset) {
         ResetTracks();
+        _displayRouteError = false;
       };
 
       if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.PlanRoute) {
@@ -332,11 +346,12 @@ public class Board {
     }
 
     // check elements
-    for (Map<String, Element> node : _nodes.values()) {
+    for (Node node : _nodes.values()) {
       Element element = node.get("self"); 
       if (element.MouseOverCheck(mouseX, mouseY)) {
+        ResetHighlights();
+        _displayRouteError = false;
         if (element instanceof SwitchTrack) {
-          ResetHighlights();
           ((SwitchTrack) element).Toggle();
         };
         if (element instanceof Track) {
