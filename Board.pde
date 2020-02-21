@@ -209,7 +209,11 @@ public class Board {
         xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
       }
     } else if (element1 instanceof Track && element2.Reverse()) {
-      xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
+      
+      // TODO: deze contditie controleren en vergelijken met de "lege" else hier onder. 
+      // de code in die else if takken is nu hetzelfde
+      
+      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
     } else {
       xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
     }
@@ -304,7 +308,7 @@ public class Board {
       fill(#FF0000);
       textAlign(LEFT, TOP);
       textSize(15);
-      text("Route niet mogelijk", 250, 50);
+      text("Route niet mogelijk", 250, 70);
     }
   }
 
@@ -337,6 +341,7 @@ public class Board {
     for (Button button : _buttons) {
       if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.Reset) {
         ResetTracks();
+        ResetHighlights();
         _displayRouteError = false;
       };
 

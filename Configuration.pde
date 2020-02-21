@@ -1,9 +1,71 @@
 public static class Configuration {
 
-  public static void loadSingleSwitch(Board board) {
-    board.AddElement(Constants.element.SwitchTrack, 1);
+  public static void loadSmallTestBoard(Board board) {
+    Map<String, Object> options = new HashMap<String, Object>();
+    options.put("lengthInSwitchTracks", 1);
+    board.AddElement(Constants.element.Track, 1, options);
+    options.clear();
+    board.AddElement(Constants.element.SwitchTrack, 2);
+    board.ConnectTerminals(1, Constants.terminal.B, 2, Constants.terminal.B);
   }
 
+  public static void loadKnzHengelo(Board board) {
+    Map<String, Object> options = new HashMap<String, Object>();
+    options.put("lengthInSwitchTracks", 1);
+    board.AddElement(Constants.element.Track, 1, options);
+    board.AddElement(Constants.element.Track, 10, options);
+    board.AddElement(Constants.element.Track, 16, options);
+    board.AddElement(Constants.element.Track, 17, options);
+    board.AddElement(Constants.element.Track, 23, options);
+    options.put("lengthInSwitchTracks", 2);
+    options.put("lengthInSwitchTracks", 3);
+    board.AddElement(Constants.element.Track, 6, options);
+    options.put("lengthInSwitchTracks", 5);
+    board.AddElement(Constants.element.Track, 22, options);
+    board.AddElement(Constants.element.Track, 9, options);
+    board.AddElement(Constants.element.Track, 13, options);
+    options.put("lengthInSwitchTracks", 6);
+    board.AddElement(Constants.element.Track, 20, options);
+    board.AddElement(Constants.element.Track, 21, options);
+    options.put("lengthInSwitchTracks", 7);
+    board.AddElement(Constants.element.Track, 19, options);
+    options.clear();
+    options.put("flip", true);
+    board.AddElement(Constants.element.SwitchTrack, 2, options);
+    board.ConnectTerminals(1, Constants.terminal.B, 2, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 3);
+    board.ConnectTerminals(2, Constants.terminal.B, 3, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 4);
+    board.ConnectTerminals(3, Constants.terminal.B, 4, Constants.terminal.C);
+    board.AddElement(Constants.element.SwitchTrack, 5, options);
+    board.ConnectTerminals(3, Constants.terminal.C, 5, Constants.terminal.C);
+    board.ConnectTerminals(5, Constants.terminal.B, 6, Constants.terminal.B);
+    board.AddElement(Constants.element.SwitchTrack, 7);
+    board.ConnectTerminals(5, Constants.terminal.A, 7, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 8, options);
+    board.ConnectTerminals(7, Constants.terminal.C, 8, Constants.terminal.C);
+    board.ConnectTerminals(8, Constants.terminal.B, 9, Constants.terminal.B);
+    board.ConnectTerminals(4, Constants.terminal.B, 10, Constants.terminal.B);
+    board.ConnectTerminals(2, Constants.terminal.C, 10, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 11, options);
+    board.ConnectTerminals(4, Constants.terminal.A, 11, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 12);
+    board.ConnectTerminals(11, Constants.terminal.C, 12, Constants.terminal.C);
+    board.ConnectTerminals(12, Constants.terminal.B, 13, Constants.terminal.B);
+    board.AddElement(Constants.element.SwitchTrack, 14, options);
+    board.ConnectTerminals(12, Constants.terminal.A, 14, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 15);
+    board.ConnectTerminals(14, Constants.terminal.C, 15, Constants.terminal.C);
+    board.ConnectTerminals(14, Constants.terminal.B, 16, Constants.terminal.A);
+    board.ConnectTerminals(15, Constants.terminal.A, 17, Constants.terminal.A);
+    board.ConnectTerminals(15, Constants.terminal.B, 19, Constants.terminal.B);
+    board.ConnectTerminals(11, Constants.terminal.B, 20, Constants.terminal.A);
+    board.ConnectTerminals(7, Constants.terminal.B, 21, Constants.terminal.A);
+    board.ConnectTerminals(8, Constants.terminal.A, 22, Constants.terminal.A);
+    board.AddElement(Constants.element.SwitchTrack, 18);
+    board.ConnectTerminals(17, Constants.terminal.B, 18, Constants.terminal.B);
+    board.ConnectTerminals(18, Constants.terminal.A, 23, Constants.terminal.A);
+  }
   public static void loadSmallBoard(Board board) {
     Map<String, Object> options = new HashMap<String, Object>();
     options.put("lengthInSwitchTracks", 1);
@@ -11,7 +73,7 @@ public static class Configuration {
     board.AddElement(Constants.element.Track, 4, options);
     board.AddElement(Constants.element.Track, 8, options);
     options.put("lengthInSwitchTracks", 2);
-    
+
     options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 5, options);
     board.AddElement(Constants.element.Track, 6, options);

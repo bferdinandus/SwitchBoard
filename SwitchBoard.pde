@@ -8,13 +8,14 @@ Board _board = new Board();
 int _lastMillis = millis();
 
 void setup() {
-  size(600, 400);
+  size(800, 400);
   frameRate(60);
-  //Configuration.loadSingleSwitch(_board);
-  // Configuration.loadSchaduwStation(_board);
-  Configuration.loadSmallBoard(_board);
-
-  //println(_board.GetNodes());
+  Configuration.loadKnzHengelo(_board);
+  //Configuration.loadSchaduwStation(_board);
+  //Configuration.loadSmallBoard(_board);
+  //Configuration.loadSmallTestBoard(_board);
+  
+  
 }
 
 void draw() {
