@@ -10,22 +10,22 @@ public static class Constants {
 
 
   public static enum element {
-    SwitchTrack, 
+    SwitchTrack,
       Track
   }
 
   public static enum buttons {
-    Reset, 
+    Reset,
       PlanRoute
   }
 
   public static enum terminal {
-    A("termA"), 
-      B("termB"), 
+    A("termA"),
+      B("termB"),
       C("termC");
 
     private String _value;
-    private terminal(String value) 
+    private terminal(String value)
     {
       _value = value;
     }

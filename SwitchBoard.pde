@@ -14,8 +14,6 @@ void setup() {
   //Configuration.loadSchaduwStation(_board);
   //Configuration.loadSmallBoard(_board);
   //Configuration.loadSmallTestBoard(_board);
-  
-  
 }
 
 void draw() {
