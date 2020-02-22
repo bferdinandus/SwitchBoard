@@ -3,7 +3,7 @@ public class Element {
   protected Boolean _flip, _reverse, _isPositioned = false;
   protected TerminalCircle _circle = new TerminalCircle();
   protected Boolean _mouseOverSwitchTrack = false, _highlight = false;
-  
+
   public Element (Integer id) {
     _id = id;
   }
@@ -26,7 +26,7 @@ public class Element {
     _isPositioned = true;
   }
 
-  public Map<String, Integer> XY() 
+  public Map<String, Integer> XY()
   {
     Map<String, Integer> xy = new HashMap<String, Integer>();
     xy.put("x", _x);
@@ -35,12 +35,12 @@ public class Element {
     return xy;
   }
 
-  public Boolean Flip() 
+  public Boolean Flip()
   {
     return _flip;
   }
 
-  public void Flip(Boolean flip) 
+  public void Flip(Boolean flip)
   {
     _flip = flip;
   }
@@ -64,7 +64,7 @@ public class Element {
   {
     return _isPositioned;
   }
-  
+
   public Boolean MouseOverCheck(Integer x, Integer y) {
     // override this function in the subclasses
     return false;

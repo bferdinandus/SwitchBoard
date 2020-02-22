@@ -15,7 +15,7 @@ public class Button {
   }
 
   public Boolean MouseOverCheck(Integer x, Integer y) {
-    Integer x1 = _x - _margin, x2 = _x - _margin + _textWidth + (2 * _margin); 
+    Integer x1 = _x - _margin, x2 = _x - _margin + _textWidth + (2 * _margin);
     Integer y1 = _y, y2 = _y + _textSize + (2 * _margin);
 
     _mouseOver = (x >= x1 && x <= x2
@@ -23,11 +23,11 @@ public class Button {
 
     return _mouseOver;
   }
-  
+
   public Constants.buttons Id() {
     return _id;
   }
-  
+
   public void MousePressed() {
     _mousePressed = true;
   }
@@ -35,12 +35,12 @@ public class Button {
   public void MouseReleased() {
     _mousePressed = false;
   }
-  
+
   public void Display() {
     textAlign(LEFT, TOP);
     textSize(_textSize);
     _textWidth = round(textWidth(_text));
-    
+
     stroke(0);
     strokeWeight(1);
     fill(128);

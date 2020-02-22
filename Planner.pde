@@ -18,7 +18,7 @@ public class Planner { //<>// //<>//
   }
 
   public void ExecuteRoute() {
-    for (Integer i = 0; i < _route.size(); i++) { 
+    for (Integer i = 0; i < _route.size(); i++) {
       // size - 1 omdat de laatste in een route altijd een track zal zijn.
       // die heeft geen acties
       Node currentNode = _board.GetNodeById(_route.get(i));
@@ -56,7 +56,7 @@ public class Planner { //<>// //<>//
     println("stack " + _stack);
     println("checked " + _checked);
     println("route " + _route);
-    if (_stack.size() == 0) { 
+    if (_stack.size() == 0) {
       return false;
     }
 
@@ -83,7 +83,7 @@ public class Planner { //<>// //<>//
       if (_route.size() > 0) {
         _stack.add(_route.get(_route.size() - 1));
       } else {
-        println("geen route meer over");        
+        println("geen route meer over");
         println("stack " + _stack);
         println("checked " + _checked);
         println("route " + _route);
@@ -106,7 +106,7 @@ public class Planner { //<>// //<>//
     if (node.get("self") instanceof SwitchTrack) {
       // als de huidige node een wissel is dan moet je weten aan welke terminal de vorige node zit
       // route.size() -1 is het laatste item, size - 2 is het voorlaatste item
-      Constants.terminal lastRouteNodeOnTerminal = GetTerminalById(node, _route.get(_route.size() - 2)); 
+      Constants.terminal lastRouteNodeOnTerminal = GetTerminalById(node, _route.get(_route.size() - 2));
       // als de laatse node van de route op terminal a zit, dan alleen b of c checken
       if (lastRouteNodeOnTerminal == Constants.terminal.A) {
         isValidTerminalA = false;

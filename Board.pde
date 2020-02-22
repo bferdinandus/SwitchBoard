@@ -1,11 +1,11 @@
-/*    
+/*
  Een wissel ziet er als volgt uit.
  Terminal a: waar de splitsing begint
  Terminal b: het stuk dat rechtdoor loopt
  Terminal c: het stuk dat afbuigt
- 
+
  C
- / 
+ /
  /
  A--B
  */
@@ -66,7 +66,7 @@ public class Board {
   }
 
   // arguments: element type:enum, element Id:Integer, options: Map
-  public void AddElement(Constants.element type, Integer id, Map<String, Object> options) 
+  public void AddElement(Constants.element type, Integer id, Map<String, Object> options)
   {
     if (NodeExists(id)) {
       println("Board$AddElement => node id: " + id + " already exists.");
@@ -119,7 +119,7 @@ public class Board {
     _nodes.put(id, node);
   }
 
-  public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2) 
+  public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2)
   {
     if (!NodeExists(id1)) {
       println("Board$ConnectTerminals => Node id: " + id1 + " does not exist.");
@@ -183,8 +183,8 @@ public class Board {
       element2.Reverse(element1.Reverse());
     }
 
-    if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C) 
-      && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C) 
+    if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)
+      && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C)
       && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
     }
@@ -209,10 +209,10 @@ public class Board {
         xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
       }
     } else if (element1 instanceof Track && element2.Reverse()) {
-      
-      // TODO: deze contditie controleren en vergelijken met de "lege" else hier onder. 
+
+      // TODO: deze contditie controleren en vergelijken met de "lege" else hier onder.
       // de code in die else if takken is nu hetzelfde
-      
+
       xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
     } else {
       xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
@@ -221,30 +221,30 @@ public class Board {
     if (terminal1 == Constants.terminal.C) {
       // y positie voor het 2e element bepalen
       if (element2 instanceof SwitchTrack) {
-        if (element1.Flip()) { 
+        if (element1.Flip()) {
           xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
         } else {
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       } else if (element2 instanceof Track) {
-        if (element1.Flip()) { 
+        if (element1.Flip()) {
           xy2.put("y", xy1.get("y"));
         } else {
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       }
 
-      if (!element1.Flip() && element2.Flip()) { 
+      if (!element1.Flip() && element2.Flip()) {
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") - Constants.switchTrackHeight);
       }
 
-      if (element1.Flip() && !element2.Flip()) { 
+      if (element1.Flip() && !element2.Flip()) {
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") + Constants.switchTrackHeight);
       }
     } else if (terminal2 == Constants.terminal.C) {
-      if (element2.Flip()) { 
+      if (element2.Flip()) {
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
         xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
@@ -257,17 +257,17 @@ public class Board {
     element2.XY(xy2);
   }
 
-  public Element GetElementById(Integer id) 
+  public Element GetElementById(Integer id)
   {
     return GetNodeById(id).get("self");
   }
 
-  public Map<Integer, Node> GetNodes() 
+  public Map<Integer, Node> GetNodes()
   {
     return _nodes;
   }
 
-  private Node GetNodeById(Integer id) 
+  private Node GetNodeById(Integer id)
   {
     return _nodes.get(id);
   }
@@ -314,7 +314,7 @@ public class Board {
 
   private void DisplayTracks() {
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       if (element.IsPositioned()) {
         element.Display();
       } else {
@@ -331,7 +331,7 @@ public class Board {
 
     // check board elements
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       element.MouseOverCheck(x, y);
     }
   }
@@ -352,7 +352,7 @@ public class Board {
 
     // check elements
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       if (element.MouseOverCheck(mouseX, mouseY)) {
         ResetHighlights();
         _displayRouteError = false;

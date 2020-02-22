@@ -127,7 +127,7 @@ public static class Configuration {
     board.AddElement(Constants.element.Track, 16, options);
     options.put("lengthInSwitchTracks", 2);
     board.AddElement(Constants.element.Track, 20, options);
-    board.AddElement(Constants.element.Track, 21, options);  
+    board.AddElement(Constants.element.Track, 21, options);
     board.AddElement(Constants.element.Track, 13, options);
     board.AddElement(Constants.element.Track, 17, options);
     options.put("lengthInSwitchTracks", 1);
