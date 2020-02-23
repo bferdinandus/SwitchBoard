@@ -181,7 +181,9 @@ public static class Configuration
     board.AddElement(Constants.element.Track, 20, options);
     board.AddElement(Constants.element.Track, 21, options);
     board.AddElement(Constants.element.Track, 13, options);
+    options.put("name", "Spoor 1");
     board.AddElement(Constants.element.Track, 17, options);
+    options.clear();
     options.put("lengthInSwitchTracks", 1);
     board.AddElement(Constants.element.Track, 14, options);
     board.AddElement(Constants.element.Track, 23, options);

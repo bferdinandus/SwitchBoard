@@ -9,7 +9,7 @@ Board _board;
 int _lastMillis = millis();
 
 void setup() {
-  size(1000, 400);
+  size(1000, 500);
   frameRate(60);
 
   Configuration.loadBoards(_boards, this);

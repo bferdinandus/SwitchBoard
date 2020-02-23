@@ -1,12 +1,14 @@
 public class Track extends Element
 {
   private Integer _length, _lengthInSwitchTracks = 1;
-  private Boolean _diagonal=false;
+  private Boolean _diagonal = false;
+  private String _name = "";
 
-  public Track(Integer id) {
+  public Track(Integer id, String name) {
     super(id);
 
     calculateLength();
+    _name = name;
   }
 
   public Boolean Diagonal() {
@@ -100,7 +102,7 @@ public class Track extends Element
       text(_id, letterX, letterY-1);
       text(_id, letterX, letterY+1);
       fill(#ffffff);
-      text(_id, letterX, letterY);
+      text(_name, letterX, letterY);
     }
   }
 

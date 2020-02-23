@@ -244,6 +244,7 @@ public class Board
         }
       }
     } else {
+
       xy2.put("y", xy1.get("y"));
     }
 

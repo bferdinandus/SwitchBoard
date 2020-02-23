@@ -6,8 +6,8 @@ public static class Constants
   public final static Integer trackBoxHeight = 20;
 
 
-  public final static Integer switchTrackWidth = 50;
-  public final static Integer switchTrackHeight = 25;
+  public final static Integer switchTrackWidth = 90;
+  public final static Integer switchTrackHeight = 35;
 
 
   public static enum element {
