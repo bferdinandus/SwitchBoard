@@ -17,12 +17,12 @@ public class SwitchTrackBuilder {
   public SwitchTrack buildWithOptions(Map<String, Object> options) {
     SwitchTrack switchTrack = build();
 
-    if (options.containsKey("flip")) {
-      switchTrack.Flip((Boolean)options.get("flip"));
-    }
-
     if (options.containsKey("reverse")) {
       switchTrack.Reverse((Boolean)options.get("reverse"));
+    }
+
+    if (options.containsKey("flip")) {
+      switchTrack.Flip((Boolean)options.get("flip"));
     }
 
     return switchTrack;

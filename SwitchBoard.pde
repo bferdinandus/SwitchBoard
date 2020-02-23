@@ -10,10 +10,12 @@ int _lastMillis = millis();
 void setup() {
   size(1000, 400);
   frameRate(60);
-  Configuration.loadKnzHengelo(_board);
-  //Configuration.loadSchaduwStation(_board);
+
   //Configuration.loadSmallBoard(_board);
+
+  Configuration.loadKnzHengelo(_board);
   //Configuration.loadSmallTestBoard(_board);
+  //Configuration.loadSchaduwStation(_board);
 
   BoardSerializer boardSerializer = new BoardSerializer(_board);
   saveJSONObject(boardSerializer.toJSONObject(), "boards/KnzHengelo.json");
