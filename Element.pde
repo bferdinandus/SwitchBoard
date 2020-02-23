@@ -38,11 +38,6 @@ public class Element
 
   public Boolean Flip()
   {
-    if (_flip == null) {
-      println("ERROR: Element with id " + _id + " has Flip() == null!");
-      return false;
-    }
-
     return _flip;
   }
 
@@ -53,11 +48,6 @@ public class Element
 
   public Boolean Reverse()
   {
-    if (_reverse == null) {
-      println("ERROR: Element with id " + _id + " has Reverse() == null!");
-      return false;
-    }
-
     return _reverse;
   }
 
