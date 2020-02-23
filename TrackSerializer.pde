@@ -10,6 +10,8 @@ public class TrackSerializer extends ElementSerializer {
   public JSONObject toJSONObject() {
     JSONObject json = super.toJSONObject();
 
+    json.setInt("type", Constants.element.Track);
+
     json.setInt("lengthInSwitchTracks", _track.LengthInSwitchTracks());
     json.setInt("diagonal", _track.Diagonal());
 

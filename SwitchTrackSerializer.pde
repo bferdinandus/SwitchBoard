@@ -10,6 +10,8 @@ public class SwitchTrackSerializer extends ElementSerializer {
   public JSONObject toJSONObject() {
     JSONObject json = super.toJSONObject();
 
+    json.setInt("type", Constants.element.SwitchTrack);
+
     return json;
   }
 }
