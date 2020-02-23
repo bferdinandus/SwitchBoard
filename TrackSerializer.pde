@@ -11,6 +11,7 @@ public class TrackSerializer extends ElementSerializer {
     JSONObject json = super.toJSONObject();
 
     json.setInt("lengthInSwitchTracks", _track.LengthInSwitchTracks());
+    json.setInt("diagonal", _track.Diagonal());
 
     return json;
   }
