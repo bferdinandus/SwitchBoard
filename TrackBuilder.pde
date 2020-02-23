@@ -26,7 +26,7 @@ public class TrackBuilder {
     }
 
     if (options.containsKey("flip")) {
-      switchTrack.Flip((Boolean)options.get("flip"));
+      track.Flip((Boolean)options.get("flip"));
     }
 
     return track;
