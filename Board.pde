@@ -9,16 +9,27 @@
  /
  A--B
  */
-public class Board {
+public class Board
+{
   private Map<Integer, Node> _nodes = new TreeMap<Integer, Node>();
   private ArrayList<Button> _buttons = new ArrayList();
 
   private Track _fromTrack, _toTrack;
   private Boolean _displayRouteError = false;
 
+  private String _name = "";
+
   public Board() {
     _buttons.add(new Button(Constants.buttons.Reset, "Reset", 300, 5));
     _buttons.add(new Button(Constants.buttons.PlanRoute, "Bereken!", 300, 30));
+  }
+
+  public String Name() {
+    return _name;
+  }
+
+  public void Name(String name) {
+    _name = name;
   }
 
   public Track FromTrack() {
@@ -73,28 +84,9 @@ public class Board {
       return;
     }
 
-    Element element;
-    Node node = new Node();
-    switch (type) {
-    case SwitchTrack:
-      element = new SwitchTrack(id);
-      if (options.containsKey("flip")) {
-        ((SwitchTrack) element).Flip((Boolean)options.get("flip"));
-      }
-      if (options.containsKey("reverse")) {
-        ((SwitchTrack) element).Reverse((Boolean)options.get("reverse"));
-      }
+    Element element = CreateElement(type, id, options);
 
-      break;
-    case Track:
-      element = new Track(id);
-      if (options.containsKey("lengthInSwitchTracks")) {
-        ((Track) element).LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
-      }
-
-      break;
-    default:
-      // niks doen
+    if (element == null) {
       println("Board$AddElement => Invalid type: " + type.toString() + " No element added.");
       return;
     }
@@ -105,18 +97,29 @@ public class Board {
       xy.put("x", 50);
       xy.put("y", height / 2);
       element.XY(xy);
-      if (type == Constants.element.SwitchTrack) {
-        if (((SwitchTrack)element).Flip() == null) {
-          ((SwitchTrack)element).Flip(false);
-        }
-        if (((SwitchTrack)element).Reverse() == null) {
-          ((SwitchTrack)element).Reverse(false);
-        }
-      }
     }
 
+    Node node = new Node();
     node.put("self", element);
+
     _nodes.put(id, node);
+  }
+
+  private Element CreateElement(Constants.element type, Integer id, Map<String, Object> options) {
+    Element element = null;
+
+    switch (type) {
+    case SwitchTrack:
+      element = new SwitchTrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    case Track:
+      element = new TrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    default:
+      // niks doen
+    }
+
+    return element;
   }
 
   public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2)
@@ -157,15 +160,6 @@ public class Board {
     Map<String, Integer> xy1 = element1.XY();
     Map<String, Integer> xy2 = new HashMap<String, Integer>();
 
-    // controleren of flip en reverse niet null zijn en anders op "false" zetten
-    // hier alvast flip and reverse zetten als die null zijn, de onderstaande code heeft het nodig
-    if (element2.Flip() == null) {
-      element2.Flip(false);
-    }
-    if (element2.Reverse() == null) {
-      element2.Reverse(false);
-    }
-
     // bepalen of het 2e element in "reverse" moet op basis van de te verbinden terminals en de "reverse" van het 1e element
     if (terminal1 == Constants.terminal.A && terminal2 == Constants.terminal.A && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
@@ -189,37 +183,29 @@ public class Board {
       element2.Reverse(!element1.Reverse());
     }
 
-    // indien het element een track is, de lengte uitrekenen
-    if (element1 instanceof Track && ((Track) element1).Length() == null) {
-      Integer l = (((Track) element1).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element1).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element1).Length(l);
-    }
-
-    if (element2 instanceof Track && ((Track) element2).Length() == null) {
-      Integer l = (((Track) element2).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element2).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element2).Length(l);
-    }
-
     // x positie voor het 2e element bepalen
-    if (element1.Reverse()
-      && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
-      if (element2 instanceof SwitchTrack) {
-        xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
-      } else if (element2 instanceof Track) {
-        xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
+    if (element1 instanceof Track) {
+      if (terminal1 == Constants.terminal.A) {
+        xy2.put("x", xy1.get("x") - ((Track) element1).Length() - circleDiameter);
       }
-    } else if (element1 instanceof Track && element2.Reverse()) {
-
-      // TODO: deze contditie controleren en vergelijken met de "lege" else hier onder.
-      // de code in die else if takken is nu hetzelfde
-
-      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
-    } else {
-      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
+      if (terminal1 == Constants.terminal.B) {
+        xy2.put("x", xy1.get("x") + ((Track) element1).Length() + circleDiameter);
+      }
+    } else if (element1 instanceof SwitchTrack) {
+      if (element1.Reverse()
+        && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
+        if (element2 instanceof SwitchTrack) {
+          xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
+        } else if (element2 instanceof Track) {
+          xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
+        }
+      } else {
+        xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
+      }
     }
 
+    // y positie voor het 2e element bepalen
     if (terminal1 == Constants.terminal.C) {
-      // y positie voor het 2e element bepalen
       if (element2 instanceof SwitchTrack) {
         if (element1.Flip()) {
           xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
@@ -247,7 +233,15 @@ public class Board {
       if (element2.Flip()) {
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
-        xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+        if (element1 instanceof Track && ((Track) element1).Diagonal()) {
+          if (element1.Flip()) {
+            xy2.put("y", xy1.get("y") + Constants.switchTrackHeight + Constants.switchTrackHeight);
+          } else {
+            xy2.put("y", xy1.get("y"));
+          }
+        } else {
+          xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+        }
       }
     } else {
       xy2.put("y", xy1.get("y"));
@@ -318,7 +312,7 @@ public class Board {
       if (element.IsPositioned()) {
         element.Display();
       } else {
-        println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
+        //println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
       }
     }
   }

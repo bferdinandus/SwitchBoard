@@ -1,4 +1,5 @@
-public class Planner { //<>// //<>//
+public class Planner
+{
   ArrayList<Integer> _route = new ArrayList<Integer>();
   ArrayList<Integer> _stack = new ArrayList<Integer>();
   ArrayList<Integer> _checked = new ArrayList<Integer>();
@@ -9,9 +10,6 @@ public class Planner { //<>// //<>//
   }
 
   public Boolean CalculateRoute (Integer trackId1, Integer trackId2) {
-
-    //RouteElement rt = new RouteElement(1, Constants.terminal.A);
-    //int x = rt.Id();
     println("Begin route berekenen...");
     _stack.add(trackId1);
     return SearchStack(trackId2);
@@ -19,32 +17,49 @@ public class Planner { //<>// //<>//
 
   public void ExecuteRoute() {
     for (Integer i = 0; i < _route.size(); i++) {
-      // size - 1 omdat de laatste in een route altijd een track zal zijn.
-      // die heeft geen acties
       Node currentNode = _board.GetNodeById(_route.get(i));
       Element currentElement = currentNode.get("self");
       currentElement.Highlight(true);
+
+      // size - 1 omdat de laatste in een route altijd een track zal zijn.
+      // die heeft geen acties
       if (i < _route.size() - 1) {
         Node nextNode = _board.GetNodeById(_route.get(i + 1));
         Element nextElement = nextNode.get("self");
 
         if (currentElement instanceof SwitchTrack) {
           // huidige wissel goed zetten
-          if (currentNode.get(Constants.terminal.B.toString()).Id() == nextElement.Id()) {
-            ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.B);
+          Element currentElementForTerminalB = currentNode.get(Constants.terminal.B.toString());
+          Element currentElementForTerminalC = currentNode.get(Constants.terminal.C.toString());
+
+          if (currentElementForTerminalB != null) {
+            if (currentElementForTerminalB.Id() == nextElement.Id()) {
+              ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.B);
+            }
           }
-          if (currentNode.get(Constants.terminal.C.toString()).Id() == nextElement.Id()) {
-            ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.C);
+
+          if (currentElementForTerminalC != null) {
+            if (currentElementForTerminalC.Id() == nextElement.Id()) {
+              ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.C);
+            }
           }
         }
 
         if (nextElement instanceof SwitchTrack) {
           // volgende wissel goed zetten
-          if (currentElement.Id() == nextNode.get(Constants.terminal.B.toString()).Id()) {
-            ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.B);
+          Element nextElementForTerminalB = nextNode.get(Constants.terminal.B.toString());
+          Element nextElementForTerminalC = nextNode.get(Constants.terminal.C.toString());
+
+          if (nextElementForTerminalB != null) {
+            if (currentElement.Id() == nextElementForTerminalB.Id()) {
+              ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.B);
+            }
           }
-          if (currentElement.Id() == nextNode.get(Constants.terminal.C.toString()).Id()) {
-            ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.C);
+
+          if (nextElementForTerminalC != null) {
+            if (currentElement.Id() == nextElementForTerminalC.Id()) {
+              ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.C);
+            }
           }
         }
       }

@@ -1,6 +1,7 @@
-public class Element {
+public class Element 
+{
   protected Integer _id, _x, _y;
-  protected Boolean _flip, _reverse, _isPositioned = false;
+  protected Boolean _flip = false, _reverse = false, _isPositioned = false;
   protected TerminalCircle _circle = new TerminalCircle();
   protected Boolean _mouseOverSwitchTrack = false, _highlight = false;
 
@@ -37,6 +38,11 @@ public class Element {
 
   public Boolean Flip()
   {
+    if (_flip == null) {
+      println("ERROR: Element with id " + _id + " has Flip() == null!");
+      return false;
+    }
+
     return _flip;
   }
 
@@ -47,6 +53,11 @@ public class Element {
 
   public Boolean Reverse()
   {
+    if (_reverse == null) {
+      println("ERROR: Element with id " + _id + " has Reverse() == null!");
+      return false;
+    }
+
     return _reverse;
   }
 
