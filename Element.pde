@@ -1,6 +1,6 @@
 public class Element {
   protected Integer _id, _x, _y;
-  protected Boolean _flip, _reverse, _isPositioned = false;
+  protected Boolean _flip = false, _reverse = false, _isPositioned = false;
   protected TerminalCircle _circle = new TerminalCircle();
   protected Boolean _mouseOverSwitchTrack = false, _highlight = false;
 
