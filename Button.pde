@@ -1,4 +1,5 @@
-public class Button {
+public class Button 
+{
   private String _text;
   private Integer _x, _y, _margin = 2, _textSize = 15, _textWidth;
   private Boolean _mouseOver = false, _mousePressed = false;

@@ -1,4 +1,5 @@
-public static class Constants {
+public static class Constants 
+{
   public final static Boolean debug = true;
   public final static Boolean useNodeCircle = false;
   public final static Integer circleDiameter = 20;

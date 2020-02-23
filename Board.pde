@@ -1,4 +1,4 @@
-/*    
+/*
  Een wissel ziet er als volgt uit.
  Terminal a: waar de splitsing begint
  Terminal b: het stuk dat rechtdoor loopt
@@ -9,7 +9,8 @@
  /
  A--B
  */
-public class Board {
+public class Board 
+{
   private Map<Integer, Node> _nodes = new TreeMap<Integer, Node>();
   private ArrayList<Button> _buttons = new ArrayList();
 
@@ -189,37 +190,29 @@ public class Board {
       element2.Reverse(!element1.Reverse());
     }
 
-    // indien het element een track is, de lengte uitrekenen
-    if (element1 instanceof Track && ((Track) element1).Length() == null) {
-      Integer l = (((Track) element1).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element1).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element1).Length(l);
-    }
-
-    if (element2 instanceof Track && ((Track) element2).Length() == null) {
-      Integer l = (((Track) element2).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element2).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element2).Length(l);
-    }
-
     // x positie voor het 2e element bepalen
-    if (element1.Reverse()
-      && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
-      if (element2 instanceof SwitchTrack) {
-        xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
-      } else if (element2 instanceof Track) {
-        xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
+    if (element1 instanceof Track) {
+      if (terminal1 == Constants.terminal.A) {
+        xy2.put("x", xy1.get("x") - ((Track) element1).Length() - circleDiameter);
       }
-    } else if (element1 instanceof Track && element2.Reverse()) {
-      
-      // TODO: deze contditie controleren en vergelijken met de "lege" else hier onder. 
-      // de code in die else if takken is nu hetzelfde
-      
-      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
-    } else {
-      xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
+      if (terminal1 == Constants.terminal.B) {
+        xy2.put("x", xy1.get("x") + ((Track) element1).Length() + circleDiameter);
+      }
+    } else if (element1 instanceof SwitchTrack) {
+      if (element1.Reverse()
+        && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {
+        if (element2 instanceof SwitchTrack) {
+          xy2.put("x", xy1.get("x") - Constants.switchTrackWidth - circleDiameter);
+        } else if (element2 instanceof Track) {
+          xy2.put("x", xy1.get("x") - ((Track) element2).Length() - circleDiameter);
+        }
+      } else {
+        xy2.put("x", xy1.get("x") + Constants.switchTrackWidth + circleDiameter);
+      }
     }
 
+    // y positie voor het 2e element bepalen
     if (terminal1 == Constants.terminal.C) {
-      // y positie voor het 2e element bepalen
       if (element2 instanceof SwitchTrack) {
         if (element1.Flip()) { 
           xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
@@ -318,7 +311,7 @@ public class Board {
       if (element.IsPositioned()) {
         element.Display();
       } else {
-        println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
+        //println("Draw => Element id: " + element.Id() + " not positioned: skip drawing");
       }
     }
   }

@@ -1,4 +1,5 @@
-public class Element {
+public class Element 
+{
   protected Integer _id, _x, _y;
   protected Boolean _flip, _reverse, _isPositioned = false;
   protected TerminalCircle _circle = new TerminalCircle();

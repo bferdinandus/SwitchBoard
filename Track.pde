@@ -1,4 +1,5 @@
-public class Track extends Element {
+public class Track extends Element 
+{
   private Integer _length, _lengthInSwitchTracks = 1;
 
   // constructors
@@ -15,14 +16,17 @@ public class Track extends Element {
 
   public void LengthInSwitchTracks(Integer lengthInSwitchTracks) {
     _lengthInSwitchTracks = lengthInSwitchTracks;
+
+    Integer circleDiameter = Constants.circleDiameter;
+    if (!Constants.useNodeCircle) {
+      circleDiameter = 0;
+    }
+
+    _length = (LengthInSwitchTracks() * Constants.switchTrackWidth) + ((LengthInSwitchTracks() - 1) * circleDiameter);
   }
 
   public Integer Length() {
     return _length;
-  }
-
-  public void Length(Integer l) {
-    _length = l;
   }
 
   public Boolean MouseOverCheck(Integer x, Integer y) {

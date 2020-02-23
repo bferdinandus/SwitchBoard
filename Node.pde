@@ -1,4 +1,5 @@
-public class Node {
+public class Node 
+{
   private Map<String, Element> _node = new HashMap<String, Element>();
   
   Node() {

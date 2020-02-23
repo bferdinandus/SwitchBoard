@@ -1,5 +1,5 @@
-public class SwitchTrack extends Element { 
-  PApplet _parent;
+public class SwitchTrack extends Element 
+{ 
   private Constants.terminal _position;
 
   // constructors
@@ -20,7 +20,7 @@ public class SwitchTrack extends Element {
   public void SwitchToTerminal(Constants.terminal terminal) {
     _position = terminal;
   }
-  
+
   private Map<String, Integer> GetCorners() {
     Integer x1 = _x, x2 = _x + Constants.switchTrackWidth, 
       y1 = _y, y2 = _y - Constants.switchTrackHeight;
@@ -52,7 +52,7 @@ public class SwitchTrack extends Element {
 
     _mouseOverSwitchTrack = (x >= min(x1, x2) && x <= max(x1, x2)
       && y >= min(y1, y2) && y <= max(y1, y2));
-      
+
     return _mouseOverSwitchTrack;
   }
 
@@ -62,7 +62,7 @@ public class SwitchTrack extends Element {
     Integer x2 = corners.get("x2");
     Integer y1 = corners.get("y1");
     Integer y2 = corners.get("y2");
-    
+
     if (_mouseOverSwitchTrack) {
       noStroke();
       fill(230);
@@ -75,7 +75,7 @@ public class SwitchTrack extends Element {
     } else {
       highlightColor = 0;
     }
-    
+
     stroke(0);
     if (_position == Constants.terminal.B) {
       stroke(0);
@@ -92,8 +92,8 @@ public class SwitchTrack extends Element {
       strokeWeight(5);
       line(x1, y1, x2, y2);
     }
-      stroke(0);
-      strokeWeight(1);
+    stroke(0);
+    strokeWeight(1);
 
     if (Constants.useNodeCircle) {
       _circle.display(x1, y1, #3EF761, 'A');
