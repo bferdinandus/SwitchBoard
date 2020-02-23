@@ -105,14 +105,6 @@ public class Board {
       xy.put("x", 50);
       xy.put("y", height / 2);
       element.XY(xy);
-      if (type == Constants.element.SwitchTrack) {
-        if (((SwitchTrack)element).Flip() == null) {
-          ((SwitchTrack)element).Flip(false);
-        }
-        if (((SwitchTrack)element).Reverse() == null) {
-          ((SwitchTrack)element).Reverse(false);
-        }
-      }
     }
 
     node.put("self", element);
@@ -156,15 +148,6 @@ public class Board {
     // element 2 ten opzichte van element 1 positioneren.
     Map<String, Integer> xy1 = element1.XY();
     Map<String, Integer> xy2 = new HashMap<String, Integer>();
-
-    // controleren of flip en reverse niet null zijn en anders op "false" zetten
-    // hier alvast flip and reverse zetten als die null zijn, de onderstaande code heeft het nodig
-    if (element2.Flip() == null) {
-      element2.Flip(false);
-    }
-    if (element2.Reverse() == null) {
-      element2.Reverse(false);
-    }
 
     // bepalen of het 2e element in "reverse" moet op basis van de te verbinden terminals en de "reverse" van het 1e element
     if (terminal1 == Constants.terminal.A && terminal2 == Constants.terminal.A && element1.Reverse() == element2.Reverse()) {
