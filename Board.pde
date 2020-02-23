@@ -172,17 +172,6 @@ public class Board {
       element2.Reverse(!element1.Reverse());
     }
 
-    // indien het element een track is, de lengte uitrekenen
-    if (element1 instanceof Track && ((Track) element1).Length() == null) {
-      Integer l = (((Track) element1).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element1).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element1).Length(l);
-    }
-
-    if (element2 instanceof Track && ((Track) element2).Length() == null) {
-      Integer l = (((Track) element2).LengthInSwitchTracks() * Constants.switchTrackWidth) + ((((Track) element2).LengthInSwitchTracks() - 1) * circleDiameter);
-      ((Track) element2).Length(l);
-    }
-
     // x positie voor het 2e element bepalen
     if (element1.Reverse()
       && (terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)) {

@@ -3,6 +3,8 @@ public class Track extends Element {
 
   public Track(Integer id) {
     super(id);
+
+    calculateLength();
   }
 
   public Integer LengthInSwitchTracks() {
@@ -11,6 +13,8 @@ public class Track extends Element {
 
   public void LengthInSwitchTracks(Integer lengthInSwitchTracks) {
     _lengthInSwitchTracks = lengthInSwitchTracks;
+
+    calculateLength();
   }
 
   public Integer Length() {
@@ -68,5 +72,21 @@ public class Track extends Element {
       fill(#ffffff);
       text(_id, letterX, letterY);
     }
+  }
+
+  private void calculateLength() {
+    Integer l = _lengthInSwitchTracks * Constants.switchTrackWidth + (_lengthInSwitchTracks - 1) * circleDiameter();
+
+    Length(l);
+  }
+
+  private Integer circleDiameter() {
+    Integer circleDiameter = Constants.circleDiameter;
+
+    if (!Constants.useNodeCircle) {
+      circleDiameter = 0;
+    }
+
+    return circleDiameter;
   }
 }
