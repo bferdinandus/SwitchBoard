@@ -8,12 +8,15 @@ Board _board = new Board();
 int _lastMillis = millis();
 
 void setup() {
-  size(800, 400);
+  size(1000, 400);
   frameRate(60);
   Configuration.loadKnzHengelo(_board);
   //Configuration.loadSchaduwStation(_board);
   //Configuration.loadSmallBoard(_board);
   //Configuration.loadSmallTestBoard(_board);
+
+  BoardSerializer boardSerializer = new BoardSerializer(_board);
+  saveJSONObject(boardSerializer.toJSONObject(), "boards/KnzHengelo.json");
 }
 
 void draw() {
