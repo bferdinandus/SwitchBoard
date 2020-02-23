@@ -3,13 +3,13 @@
  Terminal a: waar de splitsing begint
  Terminal b: het stuk dat rechtdoor loopt
  Terminal c: het stuk dat afbuigt
- 
+
  C
- / 
+ /
  /
  A--B
  */
-public class Board 
+public class Board
 {
   private Map<Integer, Node> _nodes = new TreeMap<Integer, Node>();
   private ArrayList<Button> _buttons = new ArrayList();
@@ -17,9 +17,19 @@ public class Board
   private Track _fromTrack, _toTrack;
   private Boolean _displayRouteError = false;
 
+  private String _name = "";
+
   public Board() {
     _buttons.add(new Button(Constants.buttons.Reset, "Reset", 300, 5));
     _buttons.add(new Button(Constants.buttons.PlanRoute, "Bereken!", 300, 30));
+  }
+
+  public String Name() {
+    return _name;
+  }
+
+  public void Name(String name) {
+    _name = name;
   }
 
   public Track FromTrack() {
@@ -67,41 +77,18 @@ public class Board
   }
 
   // arguments: element type:enum, element Id:Integer, options: Map
-  public void AddElement(Constants.element type, Integer id, Map<String, Object> options) 
+  public void AddElement(Constants.element type, Integer id, Map<String, Object> options)
   {
     if (NodeExists(id)) {
       println("Board$AddElement => node id: " + id + " already exists.");
       return;
     }
 
-    Element element;
-    Node node = new Node();
-    switch (type) {
-    case SwitchTrack:
-      element = new SwitchTrack(id);
-      if (options.containsKey("reverse")) {
-        ((SwitchTrack) element).Reverse((Boolean)options.get("reverse"));
-      }
+    Element element = CreateElement(type, id, options);
 
-      break;
-    case Track:
-      element = new Track(id);
-      if (options.containsKey("lengthInSwitchTracks")) {
-        ((Track) element).LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
-      }
-      if (options.containsKey("diagonal")) {
-        ((Track) element).Diagonal((Boolean)options.get("diagonal"));
-      }
-
-      break;
-    default:
-      // niks doen
+    if (element == null) {
       println("Board$AddElement => Invalid type: " + type.toString() + " No element added.");
       return;
-    }
-
-    if (options.containsKey("flip")) {
-      element.Flip((Boolean)options.get("flip"));
     }
 
     if (_nodes.size() == 0) {
@@ -110,21 +97,32 @@ public class Board
       xy.put("x", 50);
       xy.put("y", height / 2);
       element.XY(xy);
-      if (type == Constants.element.SwitchTrack) {
-        if (((SwitchTrack)element).Flip() == null) {
-          ((SwitchTrack)element).Flip(false);
-        }
-        if (((SwitchTrack)element).Reverse() == null) {
-          ((SwitchTrack)element).Reverse(false);
-        }
-      }
     }
 
+    Node node = new Node();
     node.put("self", element);
+
     _nodes.put(id, node);
   }
 
-  public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2) 
+  private Element CreateElement(Constants.element type, Integer id, Map<String, Object> options) {
+    Element element = null;
+
+    switch (type) {
+    case SwitchTrack:
+      element = new SwitchTrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    case Track:
+      element = new TrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    default:
+      // niks doen
+    }
+
+    return element;
+  }
+
+  public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2)
   {
     if (!NodeExists(id1)) {
       println("Board$ConnectTerminals => Node id: " + id1 + " does not exist.");
@@ -162,15 +160,6 @@ public class Board
     Map<String, Integer> xy1 = element1.XY();
     Map<String, Integer> xy2 = new HashMap<String, Integer>();
 
-    // controleren of flip en reverse niet null zijn en anders op "false" zetten
-    // hier alvast flip and reverse zetten als die null zijn, de onderstaande code heeft het nodig
-    if (element2.Flip() == null) {
-      element2.Flip(false);
-    }
-    if (element2.Reverse() == null) {
-      element2.Reverse(false);
-    }
-
     // bepalen of het 2e element in "reverse" moet op basis van de te verbinden terminals en de "reverse" van het 1e element
     if (terminal1 == Constants.terminal.A && terminal2 == Constants.terminal.A && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
@@ -188,8 +177,8 @@ public class Board
       element2.Reverse(element1.Reverse());
     }
 
-    if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C) 
-      && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C) 
+    if ((terminal1 == Constants.terminal.B || terminal1 == Constants.terminal.C)
+      && (terminal2 == Constants.terminal.B || terminal2 == Constants.terminal.C)
       && element1.Reverse() == element2.Reverse()) {
       element2.Reverse(!element1.Reverse());
     }
@@ -218,30 +207,30 @@ public class Board
     // y positie voor het 2e element bepalen
     if (terminal1 == Constants.terminal.C) {
       if (element2 instanceof SwitchTrack) {
-        if (element1.Flip()) { 
+        if (element1.Flip()) {
           xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
         } else {
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       } else if (element2 instanceof Track) {
-        if (element1.Flip()) { 
+        if (element1.Flip()) {
           xy2.put("y", xy1.get("y"));
         } else {
           xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
         }
       }
 
-      if (!element1.Flip() && element2.Flip()) { 
+      if (!element1.Flip() && element2.Flip()) {
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") - Constants.switchTrackHeight);
       }
 
-      if (element1.Flip() && !element2.Flip()) { 
+      if (element1.Flip() && !element2.Flip()) {
         // extra omhoog om rekening te houden met de flip
         xy2.put("y", xy2.get("y") + Constants.switchTrackHeight);
       }
     } else if (terminal2 == Constants.terminal.C) {
-      if (element2.Flip()) { 
+      if (element2.Flip()) {
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
         if (element1 instanceof Track && ((Track) element1).Diagonal()) {
@@ -255,27 +244,24 @@ public class Board
         }
       }
     } else {
-      
-        xy2.put("y", xy1.get("y"));
-      
+      xy2.put("y", xy1.get("y"));
     }
 
     // positie opslaan in 2e element
     element2.XY(xy2);
   }
 
-
-  public Element GetElementById(Integer id) 
+  public Element GetElementById(Integer id)
   {
     return GetNodeById(id).get("self");
   }
 
-  public Map<Integer, Node> GetNodes() 
+  public Map<Integer, Node> GetNodes()
   {
     return _nodes;
   }
 
-  private Node GetNodeById(Integer id) 
+  private Node GetNodeById(Integer id)
   {
     return _nodes.get(id);
   }
@@ -322,7 +308,7 @@ public class Board
 
   private void DisplayTracks() {
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       if (element.IsPositioned()) {
         element.Display();
       } else {
@@ -339,7 +325,7 @@ public class Board
 
     // check board elements
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       element.MouseOverCheck(x, y);
     }
   }
@@ -360,7 +346,7 @@ public class Board
 
     // check elements
     for (Node node : _nodes.values()) {
-      Element element = node.get("self"); 
+      Element element = node.get("self");
       if (element.MouseOverCheck(mouseX, mouseY)) {
         ResetHighlights();
         _displayRouteError = false;

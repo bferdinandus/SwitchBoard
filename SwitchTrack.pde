@@ -1,11 +1,10 @@
-public class SwitchTrack extends Element 
-{ 
+public class SwitchTrack extends Element
+{
   private Constants.terminal _position;
 
-  // constructors
-  public SwitchTrack(Integer id) {    
-    // first call contructor of the parent
+  public SwitchTrack(Integer id) {
     super(id);
+
     _position = Constants.terminal.B;
   }
 
@@ -22,7 +21,7 @@ public class SwitchTrack extends Element
   }
 
   private Map<String, Integer> GetCorners() {
-    Integer x1 = _x, x2 = _x + Constants.switchTrackWidth, 
+    Integer x1 = _x, x2 = _x + Constants.switchTrackWidth,
       y1 = _y, y2 = _y - Constants.switchTrackHeight;
     if (_flip) {
       y2 = _y + Constants.switchTrackHeight;
@@ -67,7 +66,7 @@ public class SwitchTrack extends Element
       noStroke();
       fill(230);
       rect(min(x1, x2), min(y1, y2) - (Constants.trackBoxHeight / 2), abs(x1-x2), abs(y1-y2) + Constants.trackBoxHeight + 1);
-    } 
+    }
 
     Integer highlightColor;
     if (_highlight) {

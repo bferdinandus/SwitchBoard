@@ -1,14 +1,12 @@
-public class Track extends Element 
+public class Track extends Element
 {
   private Integer _length, _lengthInSwitchTracks = 1;
   private Boolean _diagonal=false;
 
-  // constructors
   public Track(Integer id) {
-    // first call contructor of the parent
     super(id);
-    _flip = false;
-    _reverse = false;
+
+    calculateLength();
   }
 
   public Boolean Diagonal() {
@@ -26,12 +24,7 @@ public class Track extends Element
   public void LengthInSwitchTracks(Integer lengthInSwitchTracks) {
     _lengthInSwitchTracks = lengthInSwitchTracks;
 
-    Integer circleDiameter = Constants.circleDiameter;
-    if (!Constants.useNodeCircle) {
-      circleDiameter = 0;
-    }
-
-    _length = (LengthInSwitchTracks() * Constants.switchTrackWidth) + ((LengthInSwitchTracks() - 1) * circleDiameter);
+    calculateLength();
   }
 
   public Integer Length() {
@@ -39,7 +32,7 @@ public class Track extends Element
   }
 
   public Boolean MouseOverCheck(Integer x, Integer y) {
-    Integer x1 = _x, x2 = _x + _length, 
+    Integer x1 = _x, x2 = _x + _length,
       y1 = _y, y2 = _y;
 
     if (_diagonal) {
@@ -49,10 +42,10 @@ public class Track extends Element
         y2 = _y - Constants.switchTrackHeight;
       }
     }
-    
+
     y1 -= (Constants.trackBoxHeight / 2);
     y2 += (Constants.trackBoxHeight / 2) + 1;
-    
+
     _mouseOverSwitchTrack = (x >= x1 && x <= x2
       && y >= y1 && y <= y2);
 
@@ -60,7 +53,7 @@ public class Track extends Element
   }
 
   public void Display() {
-    Integer x1 = _x, x2 = _x + _length, 
+    Integer x1 = _x, x2 = _x + _length,
       y1 = _y, y2 = _y;
 
     if (_diagonal) {
@@ -75,7 +68,7 @@ public class Track extends Element
       noStroke();
       fill(230);
       rect(x1, y1 - (Constants.trackBoxHeight / 2), _length, Constants.trackBoxHeight + abs(y1 - y2) + 1);
-    } 
+    }
 
     stroke(0);
     strokeWeight(5);
@@ -109,5 +102,19 @@ public class Track extends Element
       fill(#ffffff);
       text(_id, letterX, letterY);
     }
+  }
+
+  private void calculateLength() {
+    _length = _lengthInSwitchTracks * Constants.switchTrackWidth + (_lengthInSwitchTracks - 1) * circleDiameter();
+  }
+
+  private Integer circleDiameter() {
+    Integer circleDiameter = Constants.circleDiameter;
+
+    if (!Constants.useNodeCircle) {
+      circleDiameter = 0;
+    }
+
+    return circleDiameter;
   }
 }

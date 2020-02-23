@@ -1,0 +1,169 @@
+{
+  "elements": [
+    {
+      "id": 1,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "id": 2,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "id": 3,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "id": 4,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "id": 5,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "id": 6,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "id": 7,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "id": 8,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "id": 9,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "id": 10,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 4,
+      "id": 11,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 3,
+      "id": 12,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 2,
+      "id": 13,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 14,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 4,
+      "id": 15,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 3,
+      "id": 16,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 2,
+      "id": 17,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 4,
+      "id": 18,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 4,
+      "id": 19,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 2,
+      "id": 20,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 2,
+      "id": 21,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 22,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 23,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    }
+  ],
+  "name": "SchaduwStation"
+}
