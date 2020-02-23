@@ -29,6 +29,10 @@ public class TrackBuilder {
       track.Flip((Boolean)options.get("flip"));
     }
 
+    if (options.containsKey("name")) {
+      track.Name((String)options.get("name"));
+    }
+
     return track;
   }
 }

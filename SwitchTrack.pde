@@ -114,15 +114,9 @@ public class SwitchTrack extends Element
         letterY = y1 + abs((y1 - y2) / 2);
       }
 
-      textSize(20);
-      textAlign(CENTER, CENTER);
-      fill(#000000);
-      text(_id, letterX-1, letterY);
-      text(_id, letterX+1, letterY);
-      text(_id, letterX, letterY-1);
-      text(_id, letterX, letterY+1);
-      fill(#ffffff);
-      text(_id, letterX, letterY);
+      TextUtils text = new TextUtils(_id.toString(), 20, letterX, letterY, #ffffff, #000000);
+      text.Align(CENTER, CENTER);
+      text.Display();
     }
   }
 }

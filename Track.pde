@@ -4,11 +4,10 @@ public class Track extends Element
   private Boolean _diagonal = false;
   private String _name = "";
 
-  public Track(Integer id, String name) {
+  public Track(Integer id) {
     super(id);
 
     calculateLength();
-    _name = name;
   }
 
   public Boolean Diagonal() {
@@ -17,6 +16,14 @@ public class Track extends Element
 
   public void Diagonal(Boolean diagonal) {
     _diagonal = diagonal;
+  }
+
+  public String Name() {
+    return _name;
+  }
+
+  public void Name(String name) {
+    _name = name;
   }
 
   public Integer LengthInSwitchTracks() {
@@ -94,15 +101,10 @@ public class Track extends Element
       } else {
         letterY = y1 + abs((y1 - y2) / 2);
       }
-      textSize(20);
-      textAlign(CENTER, CENTER);
-      fill(#000000);
-      text(_id, letterX-1, letterY);
-      text(_id, letterX+1, letterY);
-      text(_id, letterX, letterY-1);
-      text(_id, letterX, letterY+1);
-      fill(#ffffff);
-      text(_name, letterX, letterY);
+      
+      TextUtils text = new TextUtils(_id.toString(), 20, letterX, letterY, #ffffff, #000000);
+      text.Align(CENTER, CENTER);
+      text.Display();
     }
   }
 

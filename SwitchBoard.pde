@@ -9,21 +9,20 @@ Board _board;
 int _lastMillis = millis();
 
 void setup() {
-  size(1000, 500);
+  size(1200, 700);
   frameRate(60);
 
   Configuration.loadBoards(_boards, this);
-  _board = _boards.get(0);
+  _board = _boards.get(3);
 }
 
 void draw() {
   background(204);
 
-  fill(#000000);
-  textAlign(LEFT, TOP);
-  textSize(10);
-  text("fps: " + round(frameRate), 5, 5);
-
+  TextUtils text = new TextUtils("fps: " + round(frameRate), 10, 5, 5);
+  text.Align(LEFT, TOP);
+  text.Display();
+  
   drawBoardSelectionTexts();
 
   _board.Display();

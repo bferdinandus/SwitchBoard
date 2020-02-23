@@ -1,20 +1,20 @@
 public class TextUtils 
 {
   private String _text;
-  private Integer _x, _y, _colour, _outlineColour, _size;
+  private Integer _x, _y, _colour, _outlineColour, _size, _hAlign = LEFT, _vAlign = BOTTOM;
   private Boolean _outline;
 
-  TextUtils(String text, Integer size, Integer x, Integer y, Integer colour, Boolean outline, Integer outlineColour) {
+  TextUtils(String text, Integer size, Integer x, Integer y, Integer colour, Integer outlineColour) {
     _text = text;
     _x = x;
     _y = y;
     _size = size;
     _colour = colour;
-    _outline = outline;
+    _outline = true;
     _outlineColour = outlineColour;
   }
 
-  TextUtils(String text, Integer x, Integer y, Integer size) {
+  TextUtils(String text, Integer size, Integer x, Integer y) {
     _text = text;
     _x = x;
     _y = y;
@@ -22,10 +22,15 @@ public class TextUtils
     _colour = 0;
     _outline = false;
   }
+  
+  public void Align(Integer hAlign, Integer vAlign) {
+    _hAlign = hAlign;
+    _vAlign = vAlign;
+  }
 
   public void Display() {
     textSize(_size);
-    textAlign(LEFT, BOTTOM);
+    textAlign(_hAlign, _vAlign);
     if (_outline) {
       fill(_outlineColour);
       text(_text, _x - 1, _y);
