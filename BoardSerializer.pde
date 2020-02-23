@@ -8,6 +8,7 @@ public class BoardSerializer {
   public JSONObject toJSONObject() {
     JSONObject json = new JSONObject();
 
+    json.setString("name", _board.Name());
     json.setJSONArray("elements", elementsToJSON());
 
     return json;

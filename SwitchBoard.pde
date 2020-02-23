@@ -17,8 +17,10 @@ void setup() {
   //Configuration.loadSmallTestBoard(_board);
   //Configuration.loadSchaduwStation(_board);
 
-  BoardSerializer boardSerializer = new BoardSerializer(_board);
-  saveJSONObject(boardSerializer.toJSONObject(), "boards/KnzHengelo.json");
+  if (_board.Name() != "") {
+    BoardSerializer boardSerializer = new BoardSerializer(_board);
+    saveJSONObject(boardSerializer.toJSONObject(), "boards/" + _board.Name() + ".json");
+  }
 }
 
 void draw() {

@@ -17,9 +17,19 @@ public class Board
   private Track _fromTrack, _toTrack;
   private Boolean _displayRouteError = false;
 
+  private String _name = "";
+
   public Board() {
     _buttons.add(new Button(Constants.buttons.Reset, "Reset", 300, 5));
     _buttons.add(new Button(Constants.buttons.PlanRoute, "Bereken!", 300, 30));
+  }
+
+  public String Name() {
+    return _name;
+  }
+
+  public void Name(String name) {
+    _name = name;
   }
 
   public Track FromTrack() {
