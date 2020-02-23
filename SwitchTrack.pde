@@ -2,10 +2,9 @@ public class SwitchTrack extends Element {
   PApplet _parent;
   private Constants.terminal _position;
 
-  // constructors
   public SwitchTrack(Integer id) {
-    // first call contructor of the parent
     super(id);
+
     _position = Constants.terminal.B;
   }
 

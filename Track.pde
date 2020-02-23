@@ -1,12 +1,8 @@
 public class Track extends Element {
   private Integer _length, _lengthInSwitchTracks = 1;
 
-  // constructors
   public Track(Integer id) {
-    // first call contructor of the parent
     super(id);
-    _flip = false;
-    _reverse = false;
   }
 
   public Integer LengthInSwitchTracks() {

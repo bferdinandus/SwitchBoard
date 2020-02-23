@@ -77,21 +77,10 @@ public class Board {
     Node node = new Node();
     switch (type) {
     case SwitchTrack:
-      element = new SwitchTrack(id);
-      if (options.containsKey("flip")) {
-        ((SwitchTrack) element).Flip((Boolean)options.get("flip"));
-      }
-      if (options.containsKey("reverse")) {
-        ((SwitchTrack) element).Reverse((Boolean)options.get("reverse"));
-      }
-
+      element = new SwitchTrackBuilder().setId(id).buildWithOptions(options);
       break;
     case Track:
-      element = new Track(id);
-      if (options.containsKey("lengthInSwitchTracks")) {
-        ((Track) element).LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
-      }
-
+      element = new TrackBuilder().setId(id).buildWithOptions(options);
       break;
     default:
       // niks doen
