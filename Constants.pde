@@ -1,7 +1,9 @@
-public static class Constants {
+public static class Constants 
+{
   public final static Boolean debug = true;
   public final static Boolean useNodeCircle = false;
   public final static Integer circleDiameter = 20;
+  public final static Integer trackBoxHeight = 20;
 
 
   public final static Integer switchTrackWidth = 50;
@@ -9,22 +11,22 @@ public static class Constants {
 
 
   public static enum element {
-    SwitchTrack, 
+    SwitchTrack,
       Track
   }
 
   public static enum buttons {
-    Reset, 
+    Reset,
       PlanRoute
   }
 
   public static enum terminal {
-    A("termA"), 
-      B("termB"), 
+    A("termA"),
+      B("termB"),
       C("termC");
 
     private String _value;
-    private terminal(String value) 
+    private terminal(String value)
     {
       _value = value;
     }

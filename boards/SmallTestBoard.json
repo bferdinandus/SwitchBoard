@@ -1,0 +1,47 @@
+{
+  "elements": [
+    {
+      "lengthInSwitchTracks": 3,
+      "id": 1,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "id": 2,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "lengthInSwitchTracks": 3,
+      "id": 3,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "id": 4,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 5,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "id": 6,
+      "reverse": true,
+      "type": "SwitchTrack",
+      "flip": false
+    }
+  ],
+  "name": "SmallTestBoard"
+}

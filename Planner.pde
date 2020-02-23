@@ -1,53 +1,92 @@
-public class Planner { //<>// //<>// //<>//
+public class Planner
+{
   ArrayList<Integer> _route = new ArrayList<Integer>();
   ArrayList<Integer> _stack = new ArrayList<Integer>();
   ArrayList<Integer> _checked = new ArrayList<Integer>();
   Board _board;
 
-  private class RouteElement {
-    private Integer _id;
-    private Constants.terminal _terminal;
-
-    RouteElement(Integer id, Constants.terminal terminal) {
-      _id = id;
-      _terminal = terminal;
-    }
-
-    public Integer Id() { 
-      return _id;
-    }
-    public Constants.terminal Terminal() { 
-      return _terminal;
-    }
-  }
-
   Planner(Board board) {
     _board = board;
   }
 
-  public Object CalculateRoute (Integer trackId1, Integer trackId2) {
-
-    //RouteElement rt = new RouteElement(1, Constants.terminal.A);
-    //int x = rt.Id();
+  public Boolean CalculateRoute (Integer trackId1, Integer trackId2) {
+    println("Begin route berekenen...");
     _stack.add(trackId1);
-
-    SearchStack(trackId2);
-
-    return new Object();
+    return SearchStack(trackId2);
   }
 
-  public void ExecuteRoute(Object obj) {
+  public void ExecuteRoute() {
+    for (Integer i = 0; i < _route.size(); i++) {
+      Node currentNode = _board.GetNodeById(_route.get(i));
+      Element currentElement = currentNode.get("self");
+      currentElement.Highlight(true);
+
+      // size - 1 omdat de laatste in een route altijd een track zal zijn.
+      // die heeft geen acties
+      if (i < _route.size() - 1) {
+        Node nextNode = _board.GetNodeById(_route.get(i + 1));
+        Element nextElement = nextNode.get("self");
+
+        if (currentElement instanceof SwitchTrack) {
+          // huidige wissel goed zetten
+          Element currentElementForTerminalB = currentNode.get(Constants.terminal.B.toString());
+          Element currentElementForTerminalC = currentNode.get(Constants.terminal.C.toString());
+
+          if (currentElementForTerminalB != null) {
+            if (currentElementForTerminalB.Id() == nextElement.Id()) {
+              ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.B);
+            }
+          }
+
+          if (currentElementForTerminalC != null) {
+            if (currentElementForTerminalC.Id() == nextElement.Id()) {
+              ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.C);
+            }
+          }
+        }
+
+        if (nextElement instanceof SwitchTrack) {
+          // volgende wissel goed zetten
+          Element nextElementForTerminalB = nextNode.get(Constants.terminal.B.toString());
+          Element nextElementForTerminalC = nextNode.get(Constants.terminal.C.toString());
+
+          if (nextElementForTerminalB != null) {
+            if (currentElement.Id() == nextElementForTerminalB.Id()) {
+              ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.B);
+            }
+          }
+
+          if (nextElementForTerminalC != null) {
+            if (currentElement.Id() == nextElementForTerminalC.Id()) {
+              ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.C);
+            }
+          }
+        }
+      }
+    }
   }
 
-  private void SearchStack(Integer targetId) {
-    if (_stack.size() == 0) { 
-      return;
+  private boolean SearchStack(Integer targetId) {
+    println("===================");
+    println("stack " + _stack);
+    println("checked " + _checked);
+    println("route " + _route);
+    if (_stack.size() == 0) {
+      return false;
     }
 
     Integer currentNodeId = _stack.remove(0);
 
     if (!_route.contains(currentNodeId)) {
       _route.add(currentNodeId);
+    }
+
+    if (currentNodeId == targetId) {
+      println("Doel gevonden");
+      println("stack " + _stack);
+      println("checked " + _checked);
+      println("route " + _route);
+      return true;
     }
 
     Integer nextNodeId = GetValidUncheckedElementId(currentNodeId);
@@ -59,19 +98,12 @@ public class Planner { //<>// //<>// //<>//
       if (_route.size() > 0) {
         _stack.add(_route.get(_route.size() - 1));
       } else {
-        println("geen route meer over");        
+        println("geen route meer over");
         println("stack " + _stack);
         println("checked " + _checked);
         println("route " + _route);
-        return;
+        return false;
       }
-    } else if (nextNodeId == targetId) {
-      _route.add(nextNodeId);
-      println("Doel gevonden");
-      println("stack " + _stack);
-      println("checked " + _checked);
-      println("route " + _route);
-      return ;
     } else {
       _stack.add(nextNodeId);
     }
@@ -79,28 +111,58 @@ public class Planner { //<>// //<>// //<>//
     if (!_checked.contains(currentNodeId)) {
       _checked.add(currentNodeId);
     }
-    println("stack " + _stack);
-    println("checked " + _checked);
-    println("route " + _route);
-    SearchStack(targetId);
+
+    return SearchStack(targetId);
   }
 
   private Integer GetValidUncheckedElementId(Integer id) {
-    Map<String, Element> node = _board.GetNodeById(id);
+    Node node = _board.GetNodeById(id);
+    Boolean isValidTerminalA = true, isValidTerminalB = true, isValidTerminalC = true;
+    if (node.get("self") instanceof SwitchTrack) {
+      // als de huidige node een wissel is dan moet je weten aan welke terminal de vorige node zit
+      // route.size() -1 is het laatste item, size - 2 is het voorlaatste item
+      Constants.terminal lastRouteNodeOnTerminal = GetTerminalById(node, _route.get(_route.size() - 2));
+      // als de laatse node van de route op terminal a zit, dan alleen b of c checken
+      if (lastRouteNodeOnTerminal == Constants.terminal.A) {
+        isValidTerminalA = false;
+      } else if (lastRouteNodeOnTerminal == Constants.terminal.B || lastRouteNodeOnTerminal == Constants.terminal.C) {
+        isValidTerminalB = false;
+        isValidTerminalC = false;
+      }
+      // als de laatse node van de route op terminal b of c zit, dan alleen a checken
+    }
+    Element el;
 
-    Element el = node.get(Constants.terminal.A.toString());
-    if (el != null && !_checked.contains(el.Id())) {
+    el = node.get(Constants.terminal.A.toString());
+    if (isValidTerminalA && el != null && !_checked.contains(el.Id())) {
       return el.Id();
     };
-
     el = node.get(Constants.terminal.B.toString());
-    if (el != null && !_checked.contains(el.Id())) {
+    if (isValidTerminalB && el != null && !_checked.contains(el.Id())) {
       return el.Id();
     };
 
     el = node.get(Constants.terminal.C.toString());
-    if (el != null && !_checked.contains(el.Id())) {
+    if (isValidTerminalC && el != null && !_checked.contains(el.Id())) {
       return el.Id();
+    };
+
+    return null;
+  }
+
+  private Constants.terminal GetTerminalById(Node node, Integer id) {
+    // op de gegeven node zoeken of er een terminal is bezet door een element met het gegeven id
+    Element el = node.get(Constants.terminal.A.toString());
+    if (el != null && el.Id() == id) {
+      return Constants.terminal.A;
+    };
+    el = node.get(Constants.terminal.B.toString());
+    if (el != null && el.Id() == id) {
+      return Constants.terminal.B;
+    };
+    el = node.get(Constants.terminal.C.toString());
+    if (el != null && el.Id() == id) {
+      return Constants.terminal.C;
     };
 
     return null;
