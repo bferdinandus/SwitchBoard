@@ -1,0 +1,63 @@
+{
+  "elements": [
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 1,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "id": 2,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "id": 3,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 4,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 5,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 6,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    },
+    {
+      "id": 7,
+      "reverse": false,
+      "type": "SwitchTrack",
+      "flip": true
+    },
+    {
+      "lengthInSwitchTracks": 1,
+      "id": 8,
+      "reverse": false,
+      "type": "Track",
+      "diagonal": false,
+      "flip": false
+    }
+  ],
+  "name": "SmallBoard"
+}
