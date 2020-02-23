@@ -1,6 +1,23 @@
-public static class Configuration 
+public static class Configuration
 {
-  public static void loadSmallTestBoard(Board board) {
+  public static void loadBoards(Map<Integer, Board> boards, SwitchBoard switchboard) {
+    Board board;
+
+    board = loadKnzHengelo(switchboard);
+    boards.put(0, board);
+
+    board = loadSmallBoard(switchboard);
+    boards.put(1, board);
+
+    board = loadSmallTestBoard(switchboard);
+    boards.put(2, board);
+
+    board = loadSchaduwStation(switchboard);
+    boards.put(3, board);
+  }
+
+  public static Board loadSmallTestBoard(SwitchBoard switchboard) {
+    Board board = switchboard.new Board();
     board.Name("SmallTestBoard");
 
     Map<String, Object> options = new HashMap<String, Object>();
@@ -20,9 +37,12 @@ public static class Configuration
     board.ConnectTerminals(2, Constants.terminal.C, 4, Constants.terminal.C);
     board.ConnectTerminals(4, Constants.terminal.B, 5, Constants.terminal.B);
     board.ConnectTerminals(5, Constants.terminal.A, 6, Constants.terminal.A);
+
+    return board;
   }
 
-  public static void loadKnzHengelo(Board board) {
+  public static Board loadKnzHengelo(SwitchBoard switchboard) {
+    Board board = switchboard.new Board();
     board.Name("KnzHengelo");
 
     Map<String, Object> options = new HashMap<String, Object>();
@@ -86,8 +106,12 @@ public static class Configuration
 
     board.ConnectTerminals(16, Constants.terminal.B, 24, Constants.terminal.A);
     board.ConnectTerminals(24, Constants.terminal.B, 18, Constants.terminal.C);
+
+    return board;
   }
-  public static void loadSmallBoard(Board board) {
+
+  public static Board loadSmallBoard(SwitchBoard switchboard) {
+    Board board = switchboard.new Board();
     board.Name("SmallBoard");
 
     Map<String, Object> options = new HashMap<String, Object>();
@@ -114,9 +138,12 @@ public static class Configuration
     board.ConnectTerminals(3, Constants.terminal.C, 6, Constants.terminal.A);
     board.ConnectTerminals(7, Constants.terminal.B, 4, Constants.terminal.A);
     board.ConnectTerminals(7, Constants.terminal.C, 8, Constants.terminal.A);
+
+    return board;
   }
 
-  public static void loadSchaduwStation(Board board) {
+  public static Board loadSchaduwStation(SwitchBoard switchboard) {
+    Board board = switchboard.new Board();
     board.Name("SchaduwStation");
 
     // arguments: element type:enum, element Id:Integer, options: Map (optioneel)
@@ -182,5 +209,7 @@ public static class Configuration
     board.ConnectTerminals(9, Constants.terminal.C, 19, Constants.terminal.B);
     board.ConnectTerminals(10, Constants.terminal.C, 20, Constants.terminal.B);
     board.ConnectTerminals(10, Constants.terminal.B, 21, Constants.terminal.B);
+
+    return board;
   }
 }
