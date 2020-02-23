@@ -1,4 +1,5 @@
-public class TerminalCircle {
+public class TerminalCircle 
+{
   //constructor
   public TerminalCircle() {
   }

@@ -21,6 +21,14 @@ public class TrackBuilder {
       track.LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
     }
 
+    if (options.containsKey("diagonal")) {
+      track.Diagonal((Boolean)options.get("diagonal"));
+    }
+
+    if (options.containsKey("flip")) {
+      switchTrack.Flip((Boolean)options.get("flip"));
+    }
+
     return track;
   }
 }

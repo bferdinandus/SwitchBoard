@@ -1,4 +1,5 @@
-public class Planner { //<>// //<>//
+public class Planner
+{
   ArrayList<Integer> _route = new ArrayList<Integer>();
   ArrayList<Integer> _stack = new ArrayList<Integer>();
   ArrayList<Integer> _checked = new ArrayList<Integer>();
@@ -9,9 +10,6 @@ public class Planner { //<>// //<>//
   }
 
   public Boolean CalculateRoute (Integer trackId1, Integer trackId2) {
-
-    //RouteElement rt = new RouteElement(1, Constants.terminal.A);
-    //int x = rt.Id();
     println("Begin route berekenen...");
     _stack.add(trackId1);
     return SearchStack(trackId2);
