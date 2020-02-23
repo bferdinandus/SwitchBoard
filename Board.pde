@@ -73,17 +73,9 @@ public class Board {
       return;
     }
 
-    Element element;
-    Node node = new Node();
-    switch (type) {
-    case SwitchTrack:
-      element = new SwitchTrackBuilder().setId(id).buildWithOptions(options);
-      break;
-    case Track:
-      element = new TrackBuilder().setId(id).buildWithOptions(options);
-      break;
-    default:
-      // niks doen
+    Element element = CreateElement(type, id, options);
+
+    if (element == null) {
       println("Board$AddElement => Invalid type: " + type.toString() + " No element added.");
       return;
     }
@@ -96,8 +88,27 @@ public class Board {
       element.XY(xy);
     }
 
+    Node node = new Node();
     node.put("self", element);
+
     _nodes.put(id, node);
+  }
+
+  private Element CreateElement(Constants.element type, Integer id, Map<String, Object> options) {
+    Element element = null;
+
+    switch (type) {
+    case SwitchTrack:
+      element = new SwitchTrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    case Track:
+      element = new TrackBuilder().setId(id).buildWithOptions(options);
+      break;
+    default:
+      // niks doen
+    }
+
+    return element;
   }
 
   public void ConnectTerminals(Integer id1, Constants.terminal terminal1, Integer id2, Constants.terminal terminal2)
