@@ -51,7 +51,7 @@ public class SwitchTrack extends Element
     Integer y2 = corners.get("y2");
 
     _mouseOverSwitchTrack = (x >= min(x1, x2) && x <= max(x1, x2)
-      && y >= min(y1, y2) && y <= max(y1, y2));
+      && y >= min(y1, y2) - (Constants.trackBoxHeight / 2) && y <= max(y1, y2) + (Constants.trackBoxHeight / 2) + 1);
 
     return _mouseOverSwitchTrack;
   }
@@ -66,7 +66,7 @@ public class SwitchTrack extends Element
     if (_mouseOverSwitchTrack) {
       noStroke();
       fill(230);
-      rect(min(x1, x2), min(y1, y2), abs(x1-x2), abs(y1-y2));
+      rect(min(x1, x2), min(y1, y2) - (Constants.trackBoxHeight / 2), abs(x1-x2), abs(y1-y2) + Constants.trackBoxHeight + 1);
     } 
 
     Integer highlightColor;

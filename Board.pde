@@ -79,9 +79,6 @@ public class Board
     switch (type) {
     case SwitchTrack:
       element = new SwitchTrack(id);
-      if (options.containsKey("flip")) {
-        ((SwitchTrack) element).Flip((Boolean)options.get("flip"));
-      }
       if (options.containsKey("reverse")) {
         ((SwitchTrack) element).Reverse((Boolean)options.get("reverse"));
       }
@@ -92,12 +89,19 @@ public class Board
       if (options.containsKey("lengthInSwitchTracks")) {
         ((Track) element).LengthInSwitchTracks((Integer)options.get("lengthInSwitchTracks"));
       }
+      if (options.containsKey("diagonal")) {
+        ((Track) element).Diagonal((Boolean)options.get("diagonal"));
+      }
 
       break;
     default:
       // niks doen
       println("Board$AddElement => Invalid type: " + type.toString() + " No element added.");
       return;
+    }
+
+    if (options.containsKey("flip")) {
+      element.Flip((Boolean)options.get("flip"));
     }
 
     if (_nodes.size() == 0) {
@@ -240,15 +244,26 @@ public class Board
       if (element2.Flip()) { 
         xy2.put("y", xy1.get("y") - Constants.switchTrackHeight);
       } else {
-        xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+        if (element1 instanceof Track && ((Track) element1).Diagonal()) {
+          if (element1.Flip()) {
+            xy2.put("y", xy1.get("y") + Constants.switchTrackHeight + Constants.switchTrackHeight);
+          } else {
+            xy2.put("y", xy1.get("y"));
+          }
+        } else {
+          xy2.put("y", xy1.get("y") + Constants.switchTrackHeight);
+        }
       }
     } else {
-      xy2.put("y", xy1.get("y"));
+      
+        xy2.put("y", xy1.get("y"));
+      
     }
 
     // positie opslaan in 2e element
     element2.XY(xy2);
   }
+
 
   public Element GetElementById(Integer id) 
   {

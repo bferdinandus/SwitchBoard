@@ -28,7 +28,10 @@ public static class Configuration
     board.AddElement(Constants.element.Track, 16, options);
     board.AddElement(Constants.element.Track, 17, options);
     board.AddElement(Constants.element.Track, 23, options);
-    options.put("lengthInSwitchTracks", 2);
+    options.put("diagonal", true);
+    options.put("flip", true);
+    board.AddElement(Constants.element.Track, 24, options);
+    options.clear();
     options.put("lengthInSwitchTracks", 3);
     board.AddElement(Constants.element.Track, 6, options);
     options.put("lengthInSwitchTracks", 5);
@@ -76,6 +79,9 @@ public static class Configuration
     board.AddElement(Constants.element.SwitchTrack, 18);
     board.ConnectTerminals(17, Constants.terminal.B, 18, Constants.terminal.B);
     board.ConnectTerminals(18, Constants.terminal.A, 23, Constants.terminal.A);
+    
+    board.ConnectTerminals(16, Constants.terminal.B, 24, Constants.terminal.A);
+    board.ConnectTerminals(24, Constants.terminal.B, 18, Constants.terminal.C);
   }
   public static void loadSmallBoard(Board board) {
     Map<String, Object> options = new HashMap<String, Object>();
