@@ -9,14 +9,8 @@ public class TerminalCircle
     fill(colour);
     circle(x, y, Constants.circleDiameter);
     y-=2;
-    textSize(15);
-    textAlign(CENTER, CENTER);
-    fill(#ffffff);
-    text(letter, x+1, y);
-    text(letter, x, y+1);
-    text(letter, x-1, y);
-    text(letter, x, y-1);
-    fill(#000000);
-    text(letter, x, y);
+
+    TextUtils text = new TextUtils().Align(CENTER, CENTER).Size(15).Colour(#000000).OutlineColour(#FFFFFF);
+    text.Text(letter.toString(), x, y);
   }
 }

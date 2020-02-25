@@ -8,7 +8,7 @@ Board _board;
 
 int _lastMillis = millis();
 
-void setup() {
+public void setup() {
   size(1200, 700);
   frameRate(60);
 
@@ -16,59 +16,56 @@ void setup() {
   _board = _boards.get(3);
 }
 
-void draw() {
+public void draw() {
   background(204);
 
-  TextUtils text = new TextUtils("fps: " + round(frameRate), 10, 5, 5);
-  text.Align(LEFT, TOP);
-  text.Display();
-  
+  TextUtils text = new TextUtils().Align(LEFT, TOP);
+  text.Text("fps: " + round(frameRate), 5, 5);
+
   drawBoardSelectionTexts();
 
   _board.Display();
 }
 
-void drawBoardSelectionTexts() {
-  fill(#000000);
-  textAlign(LEFT, TOP);
-  textSize(10);
+private void drawBoardSelectionTexts() {
+  TextUtils text = new TextUtils().Align(LEFT, TOP);
 
   Integer x = 850;
   Integer y = 5;
 
-  text("Geladen boards:", x, y);
+  text.Text("Geladen boards:", x, y);
   y += 15;
 
-  for(Map.Entry<Integer, Board> entry : _boards.entrySet()) {
+  for (Map.Entry<Integer, Board> entry : _boards.entrySet()) {
     Integer index = entry.getKey();
     Board board = entry.getValue();
 
     y += 15;
 
-    text((index + 1) + ". " + board.Name(), x, y);
+    text.Text((index + 1) + ". " + board.Name(), x, y);
   }
 
   y += 30;
-  text("Commando's:", x, y);
+  text.Text("Commando's:", x, y);
 
   y += 30;
-  text("s: Huidige board opslaan.", x, y);
+  text.Text("s: Huidige board opslaan.", x, y);
 }
 
-void saveBoard(Board board) {
+private void saveBoard(Board board) {
   if (_board.Name() == "") {
     println("ERROR: Cannot save board without name!");
     return;
   }
 
-  String boardPath = "boards/" + _board.Name() + ".json";
+  String boardPath = "boards/" + board.Name() + ".json";
   println("Saving board to: " + boardPath);
 
-  BoardSerializer boardSerializer = new BoardSerializer(_board);
+  BoardSerializer boardSerializer = new BoardSerializer(board);
   saveJSONObject(boardSerializer.toJSONObject(), boardPath);
 }
 
-void keyTyped() {
+public void keyTyped() {
   Integer boardCount = _boards.size();
   Integer result = int(key);
 
@@ -87,22 +84,22 @@ void keyTyped() {
   _board = _boards.get(selectedIndex);
 }
 
-void mouseMoved() {
+public void mouseMoved() {
   _board.MouseOverCheck(mouseX, mouseY);
 }
 
-void mouseDragged() {
+public void mouseDragged() {
   // _board.MouseOverCheck(mouseX, mouseY);
 }
 
-void mousePressed() {
+public void mousePressed() {
   _board.MousePressed(mouseX, mouseY);
 }
 
-void mouseReleased() {
+public void mouseReleased() {
   _board.MouseReleased(mouseX, mouseY);
 }
 
-void mouseClicked() {
+public void mouseClicked() {
   _board.MouseClicked(mouseX, mouseY, mouseButton);
 }

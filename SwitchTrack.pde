@@ -21,7 +21,7 @@ public class SwitchTrack extends Element
   }
 
   private Map<String, Integer> GetCorners() {
-    Integer x1 = _x, x2 = _x + Constants.switchTrackWidth,
+    Integer x1 = _x, x2 = _x + Constants.switchTrackWidth, 
       y1 = _y, y2 = _y - Constants.switchTrackHeight;
     if (_flip) {
       y2 = _y + Constants.switchTrackHeight;
@@ -114,9 +114,8 @@ public class SwitchTrack extends Element
         letterY = y1 + abs((y1 - y2) / 2);
       }
 
-      TextUtils text = new TextUtils(_id.toString(), 20, letterX, letterY, #ffffff, #000000);
-      text.Align(CENTER, CENTER);
-      text.Display();
+      TextUtils text = new TextUtils().Size(20).Colour(#ffffff).OutlineColour(#000000).Align(CENTER, CENTER);
+      text.Text(_id.toString(), letterX, letterY);
     }
   }
 }

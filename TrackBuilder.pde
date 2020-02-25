@@ -33,6 +33,10 @@ public class TrackBuilder {
       track.Name((String)options.get("name"));
     }
 
+    if (options.containsKey("alignName")) {
+      track.AlignName((Integer)options.get("alignName"));
+    }
+
     return track;
   }
 }

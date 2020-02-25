@@ -3,7 +3,7 @@
  Terminal a: waar de splitsing begint
  Terminal b: het stuk dat rechtdoor loopt
  Terminal c: het stuk dat afbuigt
-
+ 
  C
  /
  /
@@ -54,6 +54,12 @@ public class Board
   }
 
   private void PlanRoute() {
+    if (_fromTrack == null || _toTrack == null) {
+      _displayRouteError = true;
+
+      return;
+    }
+
     ResetHighlights();
     _displayRouteError = false;
     Planner p = new Planner(this);
@@ -294,16 +300,12 @@ public class Board
       toTrackId = _toTrack.Id().toString();
     }
 
-    fill(#000000);
-    textAlign(LEFT, TOP);
-    textSize(15);
-    text("Automatisch route berekenen.\nStartspoor: " + fromTrackId + "\nEindspoor: " + toTrackId, 50, 5 );
+    TextUtils text = new TextUtils().Align(LEFT, TOP).Size(15);
+    text.Text("Automatisch route berekenen.\nStartspoor: " + fromTrackId + "\nEindspoor: " + toTrackId, 50, 5 );
 
     if (_displayRouteError) {
-      fill(#FF0000);
-      textAlign(LEFT, TOP);
-      textSize(15);
-      text("Route niet mogelijk", 250, 70);
+      text.Colour(#FF0000);
+      text.Text("Route niet mogelijk", 250, 70);
     }
   }
 

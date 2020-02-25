@@ -4,31 +4,53 @@ public class TextUtils
   private Integer _x, _y, _colour, _outlineColour, _size, _hAlign = LEFT, _vAlign = BOTTOM;
   private Boolean _outline;
 
-  TextUtils(String text, Integer size, Integer x, Integer y, Integer colour, Integer outlineColour) {
-    _text = text;
-    _x = x;
-    _y = y;
-    _size = size;
-    _colour = colour;
-    _outline = true;
-    _outlineColour = outlineColour;
-  }
-
-  TextUtils(String text, Integer size, Integer x, Integer y) {
-    _text = text;
-    _x = x;
-    _y = y;
-    _size = size;
+  TextUtils() {
+    _size = 10;
     _colour = 0;
     _outline = false;
   }
-  
-  public void Align(Integer hAlign, Integer vAlign) {
-    _hAlign = hAlign;
-    _vAlign = vAlign;
+
+  public void Text(String text, Integer x, Integer y) {
+    _text = text;
+    _x = x;
+    _y = y;
+
+    Display();
+  };
+
+  public TextUtils Size(Integer size) {
+    _size = size;
+
+    return this;
   }
 
-  public void Display() {
+  public TextUtils Colour(Integer colour) {
+    _colour = colour;
+
+    return this;
+  }
+
+  public TextUtils OutlineColour(Integer outlineColour) {
+    _outlineColour = outlineColour;
+    _outline = true;
+
+    return this;
+  }
+
+  public TextUtils Align(Integer hAlign, Integer vAlign) {
+    _hAlign = hAlign;
+    _vAlign = vAlign;
+
+    return this;
+  }
+
+  public Integer TextWidth(String text) {
+    textSize(_size);
+
+    return round(textWidth(text));
+  }
+
+  private void Display() {
     textSize(_size);
     textAlign(_hAlign, _vAlign);
     if (_outline) {

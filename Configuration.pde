@@ -149,6 +149,7 @@ public static class Configuration
     // arguments: element type:enum, element Id:Integer, options: Map (optioneel)
     Map<String, Object> options = new HashMap<String, Object>();
     options.put("lengthInSwitchTracks", 1);
+    options.put("name", "Aankomst");
     board.AddElement(Constants.element.Track, 22, options);
     options.clear();
     options.put("flip", true);
@@ -170,22 +171,37 @@ public static class Configuration
     board.AddElement(Constants.element.SwitchTrack, 10);
     options.clear();
     options.put("lengthInSwitchTracks", 4);
+    options.put("alignName", RIGHT);
+    options.put("name", "Spoor 4");
     board.AddElement(Constants.element.Track, 11, options);
+    options.put("name", "Spoor 3");
     board.AddElement(Constants.element.Track, 15, options);
+    options.put("alignName", LEFT);
+    options.put("name", "Spoor 72");
     board.AddElement(Constants.element.Track, 18, options);
+    options.put("name", "Spoor 71");
     board.AddElement(Constants.element.Track, 19, options);
     options.put("lengthInSwitchTracks", 3);
+    options.put("alignName", RIGHT);
+    options.put("name", "Spoor 5");
     board.AddElement(Constants.element.Track, 12, options);
+    options.put("name", "Spoor 2");
     board.AddElement(Constants.element.Track, 16, options);
     options.put("lengthInSwitchTracks", 2);
+    options.put("alignName", LEFT);
+    options.put("name", "Spoor 12");
     board.AddElement(Constants.element.Track, 20, options);
+    options.put("name", "Spoor 11");
     board.AddElement(Constants.element.Track, 21, options);
+    options.put("alignName", RIGHT);
+    options.put("name", "Spoor 6");
     board.AddElement(Constants.element.Track, 13, options);
     options.put("name", "Spoor 1");
     board.AddElement(Constants.element.Track, 17, options);
-    options.clear();
     options.put("lengthInSwitchTracks", 1);
+    options.put("name", "Spoor 7");
     board.AddElement(Constants.element.Track, 14, options);
+    options.put("name", "");    
     board.AddElement(Constants.element.Track, 23, options);
 
     // arguments: id1, terminal bij id1, id2, terminal bij id2

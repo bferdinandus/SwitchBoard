@@ -38,9 +38,8 @@ public class Button
   }
 
   public void Display() {
-    textAlign(LEFT, TOP);
-    textSize(_textSize);
-    _textWidth = round(textWidth(_text));
+    TextUtils text = new TextUtils().Align(LEFT, TOP).Size(_textSize);
+    _textWidth = text.TextWidth(_text);
 
     stroke(0);
     strokeWeight(1);
@@ -52,7 +51,6 @@ public class Button
     }
     rect(_x - _margin, _y, _textWidth + (2 * _margin), _textSize + (2 * _margin));
 
-    fill(0);
-    text(_text, _x, _y );
+    text.Text(_text, _x, _y );
   }
 }

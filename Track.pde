@@ -3,6 +3,7 @@ public class Track extends Element
   private Integer _length, _lengthInSwitchTracks = 1;
   private Boolean _diagonal = false;
   private String _name = "";
+  private Integer _alignName = LEFT;
 
   public Track(Integer id) {
     super(id);
@@ -26,6 +27,10 @@ public class Track extends Element
     _name = name;
   }
 
+  public void AlignName(Integer alignName) {
+    _alignName = alignName;
+  }
+
   public Integer LengthInSwitchTracks() {
     return _lengthInSwitchTracks;
   }
@@ -41,7 +46,7 @@ public class Track extends Element
   }
 
   public Boolean MouseOverCheck(Integer x, Integer y) {
-    Integer x1 = _x, x2 = _x + _length,
+    Integer x1 = _x, x2 = _x + _length, 
       y1 = _y, y2 = _y;
 
     if (_diagonal) {
@@ -62,7 +67,7 @@ public class Track extends Element
   }
 
   public void Display() {
-    Integer x1 = _x, x2 = _x + _length,
+    Integer x1 = _x, x2 = _x + _length, 
       y1 = _y, y2 = _y;
 
     if (_diagonal) {
@@ -101,11 +106,19 @@ public class Track extends Element
       } else {
         letterY = y1 + abs((y1 - y2) / 2);
       }
-      
-      TextUtils text = new TextUtils(_id.toString(), 20, letterX, letterY, #ffffff, #000000);
-      text.Align(CENTER, CENTER);
-      text.Display();
+
+      TextUtils text = new TextUtils().Size(20).Colour(#ffffff).OutlineColour(#000000).Align(CENTER, CENTER);
+      text.Text(_id.toString(), letterX, letterY);
     }
+
+
+    TextUtils text = new TextUtils().Size(15).Colour(#ffffff).OutlineColour(#000000);
+    if (_alignName == RIGHT) {
+      text.Align(RIGHT, BOTTOM).Text(_name.toString(), x2, y1);
+    } else {
+      text.Align(LEFT, BOTTOM).Text(_name.toString(), x1, y1);
+    }
+    
   }
 
   private void calculateLength() {
