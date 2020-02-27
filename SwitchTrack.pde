@@ -1,7 +1,8 @@
 public class SwitchTrack extends Element
 {
   private Constants.terminal _position;
-
+  private Boolean _locked = false;
+  
   public SwitchTrack(Integer id) {
     super(id);
 
@@ -20,6 +21,14 @@ public class SwitchTrack extends Element
     _position = terminal;
   }
 
+  public Boolean Locked() {
+    return _locked;
+  }
+  
+  public void Locked(Boolean locked) {
+    _locked = locked;
+  }
+  
   private Map<String, Integer> GetCorners() {
     Integer x1 = _x, x2 = _x + Constants.switchTrackWidth, 
       y1 = _y, y2 = _y - Constants.switchTrackHeight;
@@ -49,8 +58,10 @@ public class SwitchTrack extends Element
     Integer y1 = corners.get("y1");
     Integer y2 = corners.get("y2");
 
+    //_mouseOverSwitchTrack = (x >= min(x1, x2) && x <= max(x1, x2)
+    //  && y >= min(y1, y2) - (Constants.trackBoxHeight / 2) && y <= max(y1, y2) + (Constants.trackBoxHeight / 2) + 1);
     _mouseOverSwitchTrack = (x >= min(x1, x2) && x <= max(x1, x2)
-      && y >= min(y1, y2) - (Constants.trackBoxHeight / 2) && y <= max(y1, y2) + (Constants.trackBoxHeight / 2) + 1);
+      && y >= min(y1, y2) && y <= max(y1, y2));
 
     return _mouseOverSwitchTrack;
   }
@@ -65,7 +76,17 @@ public class SwitchTrack extends Element
     if (_mouseOverSwitchTrack) {
       noStroke();
       fill(230);
-      rect(min(x1, x2), min(y1, y2) - (Constants.trackBoxHeight / 2), abs(x1-x2), abs(y1-y2) + Constants.trackBoxHeight + 1);
+      rect(min(x1, x2), min(y1, y2) , abs(x1-x2), abs(y1-y2));
+    }
+    
+    if (_locked) {
+      noFill();
+      stroke(255, 0, 0);
+      noStroke();
+      fill(255, 0, 0, 16);
+      strokeWeight(1);
+      //rect(min(x1, x2), min(y1, y2) - (Constants.trackBoxHeight / 2), abs(x1-x2), abs(y1-y2) + Constants.trackBoxHeight + 1);
+      rect(min(x1, x2), min(y1, y2), abs(x1-x2), abs(y1-y2));
     }
 
     Integer highlightColor;

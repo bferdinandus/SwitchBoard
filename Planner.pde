@@ -35,12 +35,14 @@ public class Planner
           if (currentElementForTerminalB != null) {
             if (currentElementForTerminalB.Id() == nextElement.Id()) {
               ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.B);
+              ((SwitchTrack) currentElement).Locked(true);
             }
           }
 
           if (currentElementForTerminalC != null) {
             if (currentElementForTerminalC.Id() == nextElement.Id()) {
               ((SwitchTrack) currentElement).SwitchToTerminal(Constants.terminal.C);
+              ((SwitchTrack) currentElement).Locked(true);
             }
           }
         }
@@ -53,12 +55,14 @@ public class Planner
           if (nextElementForTerminalB != null) {
             if (currentElement.Id() == nextElementForTerminalB.Id()) {
               ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.B);
+              ((SwitchTrack) nextElement).Locked(true);
             }
           }
 
           if (nextElementForTerminalC != null) {
             if (currentElement.Id() == nextElementForTerminalC.Id()) {
               ((SwitchTrack) nextElement).SwitchToTerminal(Constants.terminal.C);
+              ((SwitchTrack) nextElement).Locked(true);
             }
           }
         }

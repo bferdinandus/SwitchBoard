@@ -60,7 +60,6 @@ public class Board
       return;
     }
 
-    ResetHighlights();
     _displayRouteError = false;
     Planner p = new Planner(this);
     Boolean calculateSuccess = p.CalculateRoute(_fromTrack.Id(), _toTrack.Id());
@@ -71,9 +70,13 @@ public class Board
     }
   }
 
-  private void ResetHighlights() {
+  private void ReleaseRoute() {
     for (Node node : _nodes.values()) {
-      node.get("self").Highlight(false);
+      Element currentElement = node.get("self");
+      currentElement.Highlight(false);
+      if (currentElement instanceof SwitchTrack) {
+        ((SwitchTrack) currentElement).Locked(false);
+      }
     }
   }
 
@@ -338,7 +341,7 @@ public class Board
     for (Button button : _buttons) {
       if (button.MouseOverCheck(x, y) && mButton == LEFT && button.Id() == Constants.buttons.Reset) {
         ResetTracks();
-        ResetHighlights();
+        ReleaseRoute();
         _displayRouteError = false;
       };
 
@@ -351,9 +354,7 @@ public class Board
     for (Node node : _nodes.values()) {
       Element element = node.get("self");
       if (element.MouseOverCheck(mouseX, mouseY)) {
-        ResetHighlights();
-        _displayRouteError = false;
-        if (element instanceof SwitchTrack) {
+        if (element instanceof SwitchTrack && !((SwitchTrack) element).Locked()) {
           ((SwitchTrack) element).Toggle();
         };
         if (element instanceof Track) {
@@ -363,6 +364,7 @@ public class Board
             _board.ToTrack((Track) element);
           }
         }
+        _displayRouteError = false;
       }
     }
   }
